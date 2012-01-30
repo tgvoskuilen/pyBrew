@@ -1,5 +1,5 @@
 *.pyc
 *.py~
 *.brew
-improvements.txt
+*.local
 .gitignore~
