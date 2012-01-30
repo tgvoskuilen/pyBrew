@@ -4,6 +4,7 @@ import pickle
 
 import pyBrew.dialogs
 from pyBrew.pyBrewMethods import NumString
+from pyBrew.pyBrewMethods import GetFloat
 
 ###############################################################################
 class Main(wx.Panel):

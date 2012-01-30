@@ -40,7 +40,7 @@ class MainFrame(wx.Frame):
     """
     #----------------------------------------------------------------------
     def __init__(self):        
-        wx.Frame.__init__(self, None, -1, "Homebrew Program", size=(820,650))
+        wx.Frame.__init__(self, None, -1, "pyBrew", size=(820,650))
         
         #Get a data object, contained by this Frame
         self.data = BrewData.RootData().Load()
