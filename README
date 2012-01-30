@@ -1,7 +1,10 @@
-pyBrew is an open source homebrewing program, similar to BeerSmith.
+pyBrew is an open source cross-platform homebrewing program built with wxPython.
 
 It is in 'Alpha', so it could use some refinement and new features, but is
 usable as is.
+
+It is tested in Windows (Vista and 7) and Ubuntu, but should work in any platform
+that wxPython works in.
 
 ** Usage Guide **
 
