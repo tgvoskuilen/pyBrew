@@ -29,9 +29,9 @@ import pickle
 import wx.lib.agw.labelbook as LB
 import wx.lib.agw.flatnotebook as fnb
 
-import Panels
+import panels
 import BrewData
-import Dialogs
+import dialogs
 
 ###############################################################################
 class MainFrame(wx.Frame):
@@ -122,11 +122,11 @@ class MainFrame(wx.Frame):
        
     #----------------------------------------------------------------------
     def ShowAbout(self, event):
-        Dialogs.About(self).ShowModal()
+        dialogs.About(self).ShowModal()
         
     #----------------------------------------------------------------------
     def DoImport(self, type='Project'):
-        dlg = Dialogs.GetFilePath(self, type, 'Import')
+        dlg = dialogs.GetFilePath(self, type, 'Import')
         ans = dlg.ShowModal()
         if ans == wx.ID_OK:
             if type == 'Project':
@@ -134,18 +134,18 @@ class MainFrame(wx.Frame):
                 imported = self.data.projects[-1].Import(dlg.GetPath())
                 if not imported:
                     del self.data.projects[-1]
-                    ed = Dialogs.ImportError(dlg.GetFilename(),type).ShowModal()
+                    ed = dialogs.ImportError(dlg.GetFilename(),type).ShowModal()
             else:
                 self.data.recipes.append(BrewData.Recipe())
                 imported = self.data.recipes[-1].Import(dlg.GetPath())
                 if not imported:
                     del self.data.recipes[-1]
-                    ed = Dialogs.ImportError(dlg.GetFilename(),type).ShowModal()
+                    ed = dialogs.ImportError(dlg.GetFilename(),type).ShowModal()
         dlg.Destroy()
         
     #----------------------------------------------------------------------
     def DoExport(self, id, type='Project'):
-        dlg = Dialogs.GetFilePath(self, type, 'Export')
+        dlg = dialogs.GetFilePath(self, type, 'Export')
         ans = exportDlg.ShowModal()
         if ans == wx.ID_OK:
             if type == 'Project':
@@ -160,7 +160,7 @@ class MainFrame(wx.Frame):
         if action == 'Import':
             self.DoImport(type)
         else:
-            dlg = Dialogs.ModifyTopItems(self, action, type)
+            dlg = dialogs.ModifyTopItems(self, action, type)
             ans = dlg.ShowModal()
             if ans == wx.ID_OK:
                 if action == 'New':
@@ -187,7 +187,7 @@ class MainFrame(wx.Frame):
         
     #----------------------------------------------------------------------
     def DeleteProject(self, id):
-        ans = Dialogs.ConfirmDelete(self.data.projects[id].name).ShowModal()
+        ans = dialogs.ConfirmDelete(self.data.projects[id].name).ShowModal()
         if ans == wx.ID_YES:
             del self.data.projects[id]
             self.Notebook.projectBook._activeDataItem = None
@@ -196,7 +196,7 @@ class MainFrame(wx.Frame):
     
     #----------------------------------------------------------------------
     def DeleteRecipe(self, id):
-        ans = Dialogs.ConfirmDelete(self.data.recipes[id].name).ShowModal()
+        ans = dialogs.ConfirmDelete(self.data.recipes[id].name).ShowModal()
         if ans == wx.ID_YES:
             del self.data.recipes[id]
             self.Notebook.recipeBook._activeDataItem = None
@@ -238,7 +238,7 @@ class MainFrame(wx.Frame):
         
         try:
             if editedProject != self.data.projects[projID]:
-                ans = Dialogs.SaveMessage(editedProject.name).ShowModal()
+                ans = dialogs.SaveMessage(editedProject.name).ShowModal()
                 if ans == wx.ID_YES:
                     self.Notebook.projectBook.Save('project')
                 closeWindow = (ans == wx.ID_NO or ans == wx.ID_YES)
@@ -247,7 +247,7 @@ class MainFrame(wx.Frame):
         
         try:
             if closeWindow and editedRecipe != self.data.recipes[recipeID]:
-                ans = Dialogs.SaveMessage(editedRecipe.name).ShowModal()
+                ans = dialogs.SaveMessage(editedRecipe.name).ShowModal()
                 if ans == wx.ID_YES:
                     self.Notebook.recipeBook.Save('recipe')
                 closeWindow = (ans == wx.ID_NO or ans == wx.ID_YES)
@@ -322,7 +322,7 @@ class MyLabelBook(LB.LabelBook):
                     self.type == 'project' else self.data.recipes[self._dispID])
             
                 if original != self._activeDataItem and confirmChange:
-                    ans=Dialogs.SaveMessage(self._activeDataItem.name).ShowModal()
+                    ans=dialogs.SaveMessage(self._activeDataItem.name).ShowModal()
                     if ans == wx.ID_YES:
                         self.Save(self.type)
                     doChange = (ans != wx.ID_YES and ans != wx.ID_NO)
@@ -352,34 +352,34 @@ class MyNotebook(fnb.FlatNotebook): #wx.Notebook):
         self.parent = parent
         
         #Add Browser panel
-        self.browser = Panels.Browser(self)
+        self.browser = panels.Browser(self)
         self.AddPage(self.browser, "Home")
         
-        #Add Calander panel
-        self.calander = Panels.Calander(self)
-        self.AddPage(self.calander, "Calander")
+        #Add Calendar panel
+        self.calendar = panels.Calendar(self)
+        self.AddPage(self.calendar, "Calendar")
         
         #Add panels with ListBook nav windows
         self.projectBook = MyLabelBook(self,'project')
         self.recipeBook  = MyLabelBook(self,'recipe')
         
         #Define which pages are in the ListBook panels
-        projectPages = [(Panels.Project.Main(self.projectBook), 
+        projectPages = [(panels.Project.Main(self.projectBook), 
                             "Overview", "beer.png"),
-                        (Panels.Project.Fermentables(self.projectBook), 
+                        (panels.Project.Fermentables(self.projectBook), 
                             "Grains", "grains.png"),
-                        (Panels.Project.Hops(self.projectBook), 
+                        (panels.Project.Hops(self.projectBook), 
                             "Hops", "hops.png"),
-                        (Panels.Project.Yeast(self.projectBook), 
+                        (panels.Project.Yeast(self.projectBook), 
                             "Yeast", "yeast.png"),
-                        (Panels.Project.Other(self.projectBook), 
+                        (panels.Project.Other(self.projectBook), 
                             "Other", "beercap.png")]
                  
-        recipePages = [(Panels.Recipe.Main(self.recipeBook), 
+        recipePages = [(panels.Recipe.Main(self.recipeBook), 
                             "Overview", "beer.png"),
-                       (Panels.Recipe.Ingredients(self.recipeBook), 
+                       (panels.Recipe.Ingredients(self.recipeBook), 
                             "Ingredients", "grains.png"),
-                       (Panels.Recipe.Instructions(self.recipeBook), 
+                       (panels.Recipe.Instructions(self.recipeBook), 
                             "Instructions", "instructions.png")]
         
         #Add ListBook items to tab panel
@@ -390,7 +390,7 @@ class MyNotebook(fnb.FlatNotebook): #wx.Notebook):
         self.recipeBook.SetPages(recipePages,160)
 
         #Add Style panel
-        self.styles = Panels.Styles(self)
+        self.styles = panels.Styles(self)
         self.AddPage(self.styles, "Styles")
         
         #Make the tabs extra wide

@@ -4,7 +4,7 @@ import pickle
 
 from pyBrew.pyBrewMethods import *
 import pyBrew.Databases
-import pyBrew.Dialogs
+import pyBrew.dialogs
 
 ###############################################################################
 class Main(wx.Panel):
@@ -136,7 +136,7 @@ class Main(wx.Panel):
     def ChangeProject(self, event):
         doChange = True
         if self.project != self.parent.data.projects[self.parent._dispID]:
-            ans = pyBrew.Dialogs.SaveMessage(self.project.name).ShowModal()
+            ans = pyBrew.dialogs.SaveMessage(self.project.name).ShowModal()
             if ans == wx.ID_YES:
                 self.SaveProject()
             doChange = (ans == wx.ID_NO or ans == wx.ID_YES)
@@ -165,7 +165,7 @@ class Main(wx.Panel):
     #----------------------------------------------------------------------
     def LoadData(self):
         """ Load data to display from the parent's activeDataItem """
-        #print "Load data in Panels.Project.Main"
+        #print "Load data in panels.Project.Main"
         
         self.project = self.parent._activeDataItem
         self.projID = self.parent._dispID
@@ -219,14 +219,14 @@ class Fermentables(wx.Panel):
         styleColor = (255,128,0)
         
         #Items
-        self.fermList = pyBrew.Panels.ListPane(self, 
+        self.fermList = pyBrew.panels.ListPane(self, 
                            [(0, 'Item Name', 200),
                             (1, 'Amount', 100),
                             (2, 'Potential', -1),
                             (3, 'Gravity', 60),
                             (4, 'Percent', 60),
                             (5, 'Color Units', -1)],
-                           [pyBrew.Dialogs.AddFermDialog],
+                           [pyBrew.dialogs.AddFermDialog],
                            (-1,250), ['Grain'])
                                                
         roStyle = wx.TE_READONLY|wx.TE_CENTER
@@ -330,7 +330,7 @@ class Fermentables(wx.Panel):
         
     #----------------------------------------------------------------------
     def LoadData(self):
-        print "Load data in Panels.Project.Grains"
+        #print "Load data in panels.Project.Grains"
         self.project = self.parent._activeDataItem
         self.actualOG.ChangeValue(NumString(self.project.actualOG,'Gravity'))
         self.actualColor.ChangeValue(NumString(self.project.actualColor,'Int'))
@@ -373,7 +373,7 @@ class Hops(wx.Panel):
         styleIBULabel = wx.StaticText(self, -1, 'Style IBU')
         
         #Items
-        self.hopList = pyBrew.Panels.ListPane(self, 
+        self.hopList = pyBrew.panels.ListPane(self, 
                            [(0, 'Item Name', 200),
                             (1, 'oz.', 50),
                             (2, 'Boil Time', -1),
@@ -381,7 +381,7 @@ class Hops(wx.Panel):
                             (4, 'Form', -1),
                             (5, 'Use (%)', -1),
                             (6, 'IBU', 50)],
-                           [pyBrew.Dialogs.AddHopDialog],
+                           [pyBrew.dialogs.AddHopDialog],
                            (-1,250), ['Hop'])
 
         self.hopFormula = wx.ComboBox(self, -1, 
@@ -447,7 +447,7 @@ class Hops(wx.Panel):
         
     #----------------------------------------------------------------------
     def LoadData(self):
-        print "Load data in Panels.Project.Hops"
+        #print "Load data in panels.Project.Hops"
         self.project = self.parent._activeDataItem
         self.hopFormula.SetSelection(
             pyBrew.Databases.HopDb.FormulaNames.index(
@@ -622,7 +622,7 @@ class Yeast(wx.Panel):
         
     #----------------------------------------------------------------------
     def LoadData(self):
-        print "Load data in Panels.Project.Yeast"
+        #print "Load data in panels.Project.Yeast"
         self.project = self.parent._activeDataItem
         self.yeastType.SetSelection(
                 pyBrew.Databases.YeastDb.GetID(self.project.yeast.name)) 
@@ -665,10 +665,10 @@ class Other(wx.Panel):
         self.parent = parent
         
         #Items
-        self.otherList = pyBrew.Panels.ListPane(self, 
+        self.otherList = pyBrew.panels.ListPane(self, 
                            [(0, 'Item Name', 250),
                             (1, 'Amount', 120)],
-                           [pyBrew.Dialogs.AddOtherDialog],
+                           [pyBrew.dialogs.AddOtherDialog],
                            (-1,-1), ['Other'])
                            
         self.notes = wx.TextCtrl(self, -1, style=wx.TE_MULTILINE)
@@ -706,7 +706,7 @@ class Other(wx.Panel):
         
     #----------------------------------------------------------------------
     def LoadData(self):
-        print "Load data in Panels.Project.Other"
+        #print "Load data in panels.Project.Other"
         self.project = self.parent._activeDataItem
         self.notes.ChangeValue(self.project.notes)
         self.otherList.dataLists = [self.project.otherIngredients]

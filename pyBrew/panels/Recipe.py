@@ -2,7 +2,7 @@
 import wx
 import pickle
 
-import pyBrew.Dialogs
+import pyBrew.dialogs
 from pyBrew.pyBrewMethods import NumString
 
 ###############################################################################
@@ -88,7 +88,7 @@ class Main(wx.Panel):
     def ChangeRecipe(self, event):
         doChange = True
         if self.recipe != self.parent.data.recipes[self.parent._dispID]:
-            ans = pyBrew.Dialogs.SaveMessage(self.recipe.name).ShowModal()
+            ans = pyBrew.dialogs.SaveMessage(self.recipe.name).ShowModal()
             if ans == wx.ID_YES:
                 self.SaveRecipe()
             doChange = (ans == wx.ID_NO or ans == wx.ID_YES)
@@ -148,13 +148,13 @@ class Ingredients(wx.Panel):
         self.parent = parent
         
         # Make items
-        self.ingredients = pyBrew.Panels.ListPane(self, 
+        self.ingredients = pyBrew.panels.ListPane(self, 
                            [(0, 'Item Name', 250),
                             (1, 'Amount', 120)],
-                           [pyBrew.Dialogs.AddFermDialog,
-                            pyBrew.Dialogs.AddHopDialog,
-                            pyBrew.Dialogs.AddYeastDialog,
-                            pyBrew.Dialogs.AddOtherDialog],
+                           [pyBrew.dialogs.AddFermDialog,
+                            pyBrew.dialogs.AddHopDialog,
+                            pyBrew.dialogs.AddYeastDialog,
+                            pyBrew.dialogs.AddOtherDialog],
                            (-1,-1), ['Grain','Hop','Yeast','Other'])
 
         #Arrange Layout
@@ -167,7 +167,7 @@ class Ingredients(wx.Panel):
         
     #----------------------------------------------------------------------
     def LoadData(self):
-        print "Load data in Panels.Recipe.Ingredients"
+        #print "Load data in Panels.Recipe.Ingredients"
         self.recipe = self.parent._activeDataItem
         self.ingredients.dataLists = [self.recipe.fermentables,
                                       self.recipe.hops,
@@ -224,7 +224,7 @@ class Instructions(wx.Panel):
         
     #----------------------------------------------------------------------
     def LoadData(self):
-        print "Load data in Panels.Recipe.Instructions"
+        #print "Load data in Panels.Recipe.Instructions"
         self.recipe = self.parent._activeDataItem
         self.instructions.ChangeValue(self.recipe.instructions)
                                

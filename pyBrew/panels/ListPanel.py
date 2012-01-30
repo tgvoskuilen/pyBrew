@@ -1,6 +1,6 @@
 
 import wx
-import pyBrew.Dialogs
+import pyBrew.dialogs
 
 ###############################################################################
 class ListPane(wx.Panel):
