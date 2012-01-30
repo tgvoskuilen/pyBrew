@@ -3,5 +3,41 @@ pyBrew is an open source homebrewing program, similar to BeerSmith.
 It is in 'Alpha', so it could use some refinement and new features, but is
 usable as is.
 
-Usage Guide:
+** Usage Guide **
 
+Home:
+  pyBrew manages your projects and recipes. The Home panel shows all your
+  current ones. You can add new ones with the top menus. All your data is pickled
+  in the UserData folder. If you want it in a more portable format, use the
+  "Export Project" to get a text file.
+  
+Calendar:
+  The calendar is not finished yet, but could show your projects, and when
+  you are due to bottle or taste them.
+  
+Projects:
+  This is the project explorer, which shows the details of each project.
+  Use the tabs on the left to navigate categories and as you add your ingredients
+  the calculated values will show up. This can be handy if you want to 'wing it'
+  while making a batch :)
+  
+Recipes:
+  Upload your favorite recipes here. A potential future feature would be to auto-load
+  a recipe into a new project.
+  
+Styles:
+  This panel is not implemented yet, but a few styles are hard coded. This would
+  offer the potential to add new styles, which you can compare to your projects
+  as you brew (target gravities, color, IBUs, etc...)
+  
+If you have any suggestions for features and can help add them, feel free to
+contribute!
+
+
+Known Bugs:
+  * When it first loads if you double click on a project in the project list, the
+    project doesn't load. Switch tabs away from 'Project' then come back and it
+    will be loaded. I'm not sure why this happens.
+    
+  * Parts of it are ugly. I don't like the way the top tabs fit with the rest
+    of the panels. Suggestions?

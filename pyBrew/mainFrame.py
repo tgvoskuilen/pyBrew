@@ -86,6 +86,7 @@ class MainFrame(wx.Frame):
         self.topMenu.Append(self.aboutMenu, '&Help')
         self.SetMenuBar(self.topMenu)
                                           
+        #Add the top-level notebook
         self.Notebook = MyNotebook(self)
         self.Notebook.SetFont(wx.Font(11, wx.SWISS, wx.NORMAL, wx.BOLD))
         self.Show()
@@ -346,7 +347,7 @@ class MyNotebook(fnb.FlatNotebook): #wx.Notebook):
     def __init__(self, parent):
         fnb.FNB_HEIGHT_SPACER = 20
         fnb.FlatNotebook.__init__(self, parent, id=wx.ID_ANY,
-                                  agwStyle=fnb.FNB_NO_X_BUTTON|fnb.FNB_NO_NAV_BUTTONS|fnb.FNB_FANCY_TABS|fnb.FNB_NODRAG) #, style=wx.BK_TOP)
+                                  agwStyle=fnb.FNB_NO_X_BUTTON|fnb.FNB_NO_NAV_BUTTONS|fnb.FNB_NODRAG) #, style=wx.BK_TOP)
         
         #Keep track of who the parent is
         self.parent = parent
