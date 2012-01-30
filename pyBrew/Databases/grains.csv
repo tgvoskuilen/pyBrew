@@ -1,0 +1,103 @@
+Name,Potential Gravity,SRM,Max in batch,Efficiency
+Acid Malt,1.027,3,10,77
+Amber Dry Extract,1.044,13,100,100
+Amber Liquid Extract,1.036,13,100,100
+Amber Malt,1.035,22,20,77
+Aromatic Malt,1.036,26,10,77
+Barley Hulls,1.000,0,5,77
+Barley Flaked,1.032,2,20,77
+Barley Raw,1.028,2,15,77
+Barley Roasted,1.025,300,40,77
+Barley Torrefied,1.036,2,10,77
+Biscuit Malt,1.036,23,10,77
+Black Patent Malt,1.025,500,10,77
+Black Barley,1.025,500,10,77
+Brown Malt,1.032,65,10,77
+Brown Sugar (Dark),1.046,50,10,100
+Brown Sugar (Light),1.046,8,10,100
+Brumalt,1.033,23,10,77
+Candi Sugar (Amber),1.036,75,20,100
+Candi Sugar (Clear),1.036,1,20,100
+Candi Sugar (Dark),1.036,275,20,100
+Cane Sugar,1.046,0,7,100
+Cara-Pils/Dextrin,1.033,2,20,77
+Caraamber,1.035,30,20,77
+Caraaroma,1.035,130,20,77
+Carafa I,1.032,337,20,77
+Carafa II,1.032,412,20,77
+Carafa III,1.032,525,20,77
+Carafoam,1.033,2,20,77
+Caramel Wheat Malt,1.035,46,20,77
+Caramel/Crystal Malt - 10L,1.035,10,20,77
+Caramel/Crystal Malt - 20L,1.035,20,20,77
+Caramel/Crystal Malt - 30L,1.035,30,20,77
+Caramel/Crystal Malt - 40L,1.034,40,20,77
+Caramel/Crystal Malt - 60L,1.034,60,20,77
+Caramel/Crystal Malt - 80L,1.034,80,20,77
+Caramel/Crystal Malt - 120L,1.033,120,20,77
+Caramunich Malt,1.033,56,10,77
+Carared,1.035,20,20,77
+Caravienne,1.034,22,10,77
+Chocolate Malt (US),1.028,350,10,77
+Chocolate Malt (UK),1.034,450,10,77
+Chocolate Rye Malt,1.031,250,10,77
+Chocolate Wheat Malt,1.033,400,10,77
+Corn Sugar (Dextrose),1.046,0,5,100
+Corn Syrup,1.036,1,10,100
+Corn (Flaked),1.037,1,40,77
+Dark Dry Extract,1.044,18,100,100
+Dark Liquid Extract,1.036,18,100,100
+Dememera Sugar,1.046,2,10,100
+Extra Light Dry Extract,1.044,3,100,100
+Grits,1.037,1,10,77
+Honey,1.035,1,100,100
+Honey Malt,1.037,25,-1,77
+Invert Sugar,1.046,0,10,100
+Lager Malt,1.038,2,-1,77
+Light Dry Extract,1.044,8,100,100
+Light Liquid Extract,1.036,8,100,100
+Lyle's Golden Syrup,1.036,0,-1,100
+Maple Syrup,1.030,35,10,100
+Melanoiden Malt,1.037,20,15,77
+Mild Malt,1.037,4,100,77
+Milk Sugar (Lactose),1.035,0,10,100
+Molasses,1.036,80,5,100
+Munich Malt,1.037,9,80,77
+Munich Malt - 10L,1.035,10,80,77
+Munich Malt - 20L,1.035,20,80,77
+Oats (Flaked),1.037,1,30,77
+Oats (Malted),1.037,1,10,77
+Pale Liquid Extract,1.036,8,100,100
+Pale Malt (2 Row) Belgium,1.037,3,100,77
+Pale Malt (2 Row) UK,1.036,3,100,77
+Pale Malt (2 Row) US,1.036,2,100,77
+Pale Malt (6 Row) US,1.035,2,100,77
+Pale Malt (Marris Otter),1.038,3,-1,77
+Peat Smoked Malt,1.034,3,20,77
+Pilsner Malt (2 Row) Belgium,1.036,2,100,77
+Pilsner Malt (2 Row) Germany,1.037,2,100,77
+Pilsner Malt (2 Row) UK,1.036,1,100,77
+Pilsner Liquid Extract,1.036,4,100,100
+Rice Extract Syrup,1.032,7,15,100
+Rice,1.037,1,-1,77
+Rice Hulls,1.000,0,5,77
+Rye Malt,1.029,5,15,77
+Rye (Flaked),1.036,2,10,77
+Smoked Malt,1.037,9,100,77
+Special B Malt,1.030,180,10,77
+Special Roast,1.033,50,10,77
+Sugar (Sucrose),1.046,1,10,100
+Toasted Malt,1.033,27,10,77
+Treacle,1.036,100,-1,100
+Turbinado,1.044,10,10,100
+Victory Malt,1.034,25,15,77
+Vienna Malt,1.036,4,90,77
+Wheat Dry Extract,1.044,8,100,100
+Wheat Liquid Extract,1.036,8,100,100
+Wheat Malt (Belgium),1.037,2,60,77
+Wheat Malt (Dark),1.039,9,20,77
+Wheat Malt (Germany),1.039,2,60,77
+Wheat (Flaked),1.035,2,40,77
+Wheat (Roasted),1.025,425,10,77
+Wheat (Torrified),1.036,2,40,77
+White Wheat Malt,1.040,2,60,77

@@ -1,0 +1,30 @@
+Name,Category Name,O.G.,,F.G.,,ABV (%),,IBU,,Color SRM,,Source
+Dubbel,Belgian & French Ale,1.050,1.070,1.005,1.016,6,7.5,18,25,14,18,Papazian 1991
+Tripel,Belgian & French Ale,1.060,1.096,1.008,1.027,7,10,20,25,3.5,5.5,Papazian 1991
+Flanders Brown,Belgian & French Ale,1.043,1.077,1.010,1.014,4.8,5.2,15,25,12,18,Papazian 1991
+Saison,Belgian & French Ale,1.048,1.080,1.010,1.016,4.5,9,20,40,4,16,Papazian 1991
+Scotch Ale,Belgian & French Ale,1.072,1.100,1.018,1.030,6,8,25,35,10,25,Papazian 1991
+Lambic,Belgian & French Ale,1.044,1.056,1.004,1.016,5,6,11,23,6,13,Papazian 1991
+Wit/White,Belgian & French Ale,1.044,1.050,1.006,1.013,4.8,5.2,15,25,2,4,Papazian 1991
+Biere de Garde,Belgian & French Ale,1.060,1.080,1.008,1.042,4.5,8,25,30,8,12,Papazian 1991
+Ordinary,Bitter Ale,1.033,1.038,1.006,1.014,3,3.7,20,35,8,12,Papazian 1991
+Special,Bitter Ale,1.038,1.045,1.003,1.013,4,4.8,28,46,8,14,Papazian 1991
+Extra Special,Bitter Ale,1.046,1.060,1.005,1.022,4.8,5.8,30,55,8,14,Papazian 1991
+English Brown,Brown Ale,1.040,1.050,1.004,1.014,4.5,5.5,15,25,15,22,Papazian 1991
+English Mild,Brown Ale,1.030,1.038,1.004,1.012,3.2,4,10,24,8,34,Papazian 1991
+American Amber,Brown Ale,1.045,1.060,1.010,1.015,-1,-1,20,40,18,35,Unknown
+American Brown,Brown Ale,1.045,1.060,1.010,1.016,4.5,6.4,25,45,15,22,Papazian 1991
+Irish Red,Brown Ale,1.040,1.048,1.007,1.017,4,4.5,22,38,11,18,Papazian 1991
+Classic Pale Ale,Pale Ale,1.044,1.056,1.005,1.020,4.5,5.5,20,40,5,14,Papazian 1991
+India Pale Ale,Pale Ale,1.050,1.070,1.004,1.029,5,7.5,40,65,6,14,Papazian 1991
+Old/Strong Pale Ale,Pale Ale,1.060,1.100,1.010,1.051,6,10,30,65,8,30,Papazian 1991
+Robust Porter,Porter,1.045,1.060,1.004,1.020,5,6.5,25,40,30,50+,Papazian 1991
+Brown Porter,Porter,1.040,1.050,1.004,1.013,4.5,6,20,30,20,35,Papazian 1991
+Light,Scottish Ale,1.030,1.035,1.004,1.011,3,3.5,9,20,8,17,Papazian 1991
+Heavy,Scottish Ale,1.035,1.040,1.006,1.012,3.5,4,12,20,10,19,Papazian 1991
+Export,Scottish Ale,1.040,1.050,1.004,1.017,4,5.5,15,25,10,19,Papazian 1991
+Dry Stout,Stout,1.038,1.048,1.004,1.019,3.5,5,30,40,35,50,Papazian 1991
+Foreign Export Stout,Stout,1.052,1.072,1.004,1.027,5.7,7.5,30,60,40,60,Papazian 1991
+Sweet Stout,Stout,1.045,1.056,1.004,1.030,3,6,15,20,40,60,Papazian 1991
+Oatmeal Stout,Stout,1.038,1.056,1.004,1.023,3.8,6,20,40,20,50,Papazian 1991
+Imperial Stout,Stout,1.080,1.100,1.004,1.030,7,12,50,80,20,50,Papazian 1991
