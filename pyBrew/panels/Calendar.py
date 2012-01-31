@@ -40,9 +40,43 @@ class Calendar(wx.Panel):
         vBox = wx.BoxSizer(wx.VERTICAL)
         vBox.Add(self.calendar, 1, wx.EXPAND|wx.ALL, 10)
         
+        hBox = wx.BoxSizer(wx.HORIZONTAL)
+        self.year_txt = wx.StaticText(self, -1, 'Year')
+        self.month_txt = wx.StaticText(self, -1, 'Month')
+        self.spin_year = wx.SpinCtrl(self, -1, size=(100,-1))
+        self.spin_month = wx.SpinCtrl(self, -1, size=(100,-1))
+        
+        #hBox.AddSpacer((20,-1), 1)
+        hBox.Add(self.month_txt, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 10)
+        hBox.Add(self.spin_month, 0, wx.EXPAND|wx.ALL|wx.ALIGN_CENTER_VERTICAL, 10)
+        hBox.Add(self.year_txt, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 10)
+        hBox.Add(self.spin_year, 0, wx.EXPAND|wx.ALL|wx.ALIGN_CENTER_VERTICAL, 10)
+        
+        vBox.Add(hBox, 0, wx.ALIGN_RIGHT|wx.RIGHT|wx.BOTTOM, 20)
+        
+        start_month = self.calendar.GetMonth()
+        start_year = self.calendar.GetYear()
+        
+        self.spin_year.SetRange(1980,start_year+1)
+        self.spin_year.SetValue(start_year)
+        
+        self.spin_month.SetRange(1,12)
+        self.spin_month.SetValue(start_month)
+        
+        self.Bind(wx.EVT_SPINCTRL, self.OnSpinYear, self.spin_year)
+        self.Bind(wx.EVT_SPINCTRL, self.OnSpinMonth, self.spin_month)
         self.SetSizer(vBox)
         #Embellish calendar with DC drawing (how to add images?)
         
+    def OnSpinYear(self, event):
+        self.calendar.SetYear(self.spin_year.GetValue())
+        self.calendar.Refresh()
+
+    def OnSpinMonth(self, event):
+        self.calendar.SetMonth(self.spin_month.GetValue())
+        self.calendar.Refresh()
+        
+
     def LoadActivePanel(self):
         pass
         
