@@ -40,9 +40,5 @@ contribute!
 
 
 Known Bugs:
-  * When it first loads if you double click on a project in the project list, the
-    project doesn't load. Switch tabs away from 'Project' then come back and it
-    will be loaded. I'm not sure why this happens.
-    
   * Parts of it are ugly. I don't like the way the top tabs fit with the rest
     of the panels. Suggestions?
