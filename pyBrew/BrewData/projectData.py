@@ -46,7 +46,7 @@ class Project(object):
     def __init__(self, name='New Project'):
         #Core project data
         self.name = name
-        self.brewDate = date.today().strftime("%m/%d/%Y")
+        self.brewDate = date.today().strftime("%b %d, %Y")
         self.batchSize = 0.
         self.daysInPrimary = 0
         self.daysInSecondary = 0

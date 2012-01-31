@@ -171,6 +171,7 @@ class MainFrame(wx.Frame):
                     else:
                         self.data.recipes.append(
                             BrewData.Recipe(dlg.text.GetValue()))
+                    self.data.Save()
                             
                 elif action == 'Delete':
                     id = dlg.text.GetSelection()
@@ -179,7 +180,7 @@ class MainFrame(wx.Frame):
                             self.DeleteProject(id)
                         else:
                             self.DeleteRecipe(id)
-                                
+                    self.data.Save()
                 elif action == 'Export':
                     self.DoExport(dlg.text.GetSelection(), type)
                     
@@ -212,12 +213,12 @@ class MainFrame(wx.Frame):
         editedRecipe = self.Notebook.recipeBook._activeDataItem
         
         try:
-            changedRecipe = editedRecipe != self.data.recipes[recipeID]
+            changedRecipe = (editedRecipe != self.data.recipes[recipeID])
         except IndexError:
             changedRecipe = False
             
         try:
-            changedProject = editedProject != self.data.projects[projID]
+            changedProject = (editedProject != self.data.projects[projID])
         except IndexError:
             changedProject = False
         
@@ -309,7 +310,7 @@ class MyLabelBook(LB.LabelBook):
             self.data.projects[self._dispID] = self._activeDataItem
         elif type == 'recipe':
             self.data.recipes[self._dispID] = self._activeDataItem
-        pickle.dump(self.data, open('mydata.brew', 'wb') ,-1)
+        self.data.Save()
         self.ChangeActiveDataItem(self._dispID)
         self.LoadActivePanel()
         self.parent.parent.CheckSave()
@@ -347,7 +348,10 @@ class MyNotebook(fnb.FlatNotebook): #wx.Notebook):
     def __init__(self, parent):
         fnb.FNB_HEIGHT_SPACER = 20
         fnb.FlatNotebook.__init__(self, parent, id=wx.ID_ANY,
-                                  agwStyle=fnb.FNB_NO_X_BUTTON|fnb.FNB_NO_NAV_BUTTONS|fnb.FNB_NODRAG) #, style=wx.BK_TOP)
+                                  agwStyle=fnb.FNB_NO_X_BUTTON|fnb.FNB_NO_NAV_BUTTONS|fnb.FNB_NODRAG|fnb.FNB_FF2)
+                                  
+        bgcolor = wx.Colour(240,240,240)
+        self.SetTabAreaColour(bgcolor) 
         
         #Keep track of who the parent is
         self.parent = parent

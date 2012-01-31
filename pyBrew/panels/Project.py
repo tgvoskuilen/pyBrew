@@ -124,12 +124,16 @@ class Main(wx.Panel):
         self.Bind(wx.EVT_TEXT, self.UpdateProjectData, self.boilTime)
         self.Bind(wx.EVT_TEXT, self.UpdateProjectData, self.daysInPrimary)
         self.Bind(wx.EVT_TEXT, self.UpdateProjectData, self.daysInSecondary)
-        
+        self.brewDate.Bind(wx.EVT_LEFT_DOWN, self.clickedDate)
         self.Bind(wx.EVT_BUTTON, self.SaveProject, self.save)
         
         #Set the panel sizer
         self.SetSizer(vBox)
-
+        
+    #----------------------------------------------------------------------
+    def clickedDate(self, event):
+        pyBrew.dialogs.Calendar(self,-1,"Select Date",self.brewDate).ShowModal()
+    
     #----------------------------------------------------------------------
     def ChangeStyle(self, event):
         self.project.style=pyBrew.BrewData.Style(self.projectStyle.GetValue())

@@ -57,5 +57,5 @@ class RootData(object):
         return [recipe.name for recipe in self.recipes]
 
     #----------------------------------------------------------------------
-    def Save(self):
-        pass #TODO
+    def Save(self, filename='mydata.brew'):
+        pickle.dump(self, open('UserData/'+filename, 'wb'), -1)
