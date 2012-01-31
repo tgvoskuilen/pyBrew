@@ -193,7 +193,6 @@ class Main(wx.Panel):
     #----------------------------------------------------------------------
     def LoadData(self):
         """ Load data to display from the parent's activeDataItem """
-        #print "Load data in panels.Project.Main"
         
         self.project = self.parent._activeDataItem
         self.projID = self.parent._dispID

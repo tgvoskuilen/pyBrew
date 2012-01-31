@@ -435,14 +435,15 @@ class MyNotebook(fnb.FlatNotebook): #wx.Notebook):
         event.Skip()
        
     #----------------------------------------------------------------------
-    def SetToProjects(self, id):
-        self.projectBook.ChangeActiveDataItem(id) #Load project 'id'
-        self.projectBook.SetSelection(0)          #Set to overview tab
-        self.SetSelection(2)                      #Switch to projects tab
+    def SetToProjects(self, pid):
+        self.projectBook.ChangeActiveDataItem(pid) #Load project 'pid'
+        self.projectBook.SetSelection(0)           #Set to overview tab
+        self.SetSelection(2)                       #Switch to projects tab
+        self.GetChildren()[3].LoadActivePanel()
         
     #----------------------------------------------------------------------
-    def SetToRecipes(self, id):
-        self.recipeBook.ChangeActiveDataItem(id) #Load recipe 'id'
-        self.recipeBook.SetSelection(0)          #Set to overview tab
-        self.SetSelection(3)                     #Switch to recipes tab
-       
+    def SetToRecipes(self, rid):
+        self.recipeBook.ChangeActiveDataItem(rid) #Load recipe 'rid'
+        self.recipeBook.SetSelection(0)           #Set to overview tab
+        self.SetSelection(3)                      #Switch to recipes tab
+        self.GetChildren()[4].LoadActivePanel()
