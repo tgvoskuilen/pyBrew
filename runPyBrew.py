@@ -1,3 +1,4 @@
+#!/usr/bin/python
 """
 Copyright (c) 2012, Tyler Voskuilen
 All rights reserved.

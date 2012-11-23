@@ -26,7 +26,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import wx
 import os
 import string
-import pyBrew.BrewData
 
 ###############################################################################
 class ImportError(wx.MessageDialog):
@@ -63,7 +62,7 @@ class About(wx.Dialog):
     #----------------------------------------------------------------------
     def __init__(self, parent):
                  
-        wx.Dialog.__init__(self, parent, wx.ID_ANY, 'About')
+        wx.Dialog.__init__(self, parent, wx.ID_ANY, 'About pyBrew', style=wx.DEFAULT_DIALOG_STYLE|wx.CLOSE_BOX)
         
         lines = []
         lines.append(wx.StaticText(self,-1,'This is pyBrew Version 1.1'))
@@ -86,7 +85,7 @@ class GetFilePath(wx.FileDialog):
     #----------------------------------------------------------------------
     def __init__(self, parent, type='Project', mode='Import'):
     
-        wildcard = "CSV Files (*.csv)|*.csv"
+        wildcard = "DAT Files (*.dat)|*.dat"
         
         currentDir = os.getcwd()
         

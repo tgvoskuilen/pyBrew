@@ -24,7 +24,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import wx
-import pyBrew.BrewData
+import pyBrew.BrewObjects
 import pyBrew.Databases
 
 ###############################################################################
@@ -33,8 +33,8 @@ import pyBrew.Databases
 ###############################################################################
 class AddOtherDialog(wx.Dialog):
     """ Add/Edit other item dialog window """
-    def __init__(self, parent, id, title, inputOther=pyBrew.BrewData.Other('',
-                    pyBrew.BrewData.Quantity(0,'')), okButtonText='Add'):
+    def __init__(self, parent, id, title, inputOther=pyBrew.BrewObjects.Other('',
+                    pyBrew.BrewObjects.Quantity(0,'')), okButtonText='Add'):
                     
         wx.Dialog.__init__(self, parent, id, title, size=(-1,-1))
 
@@ -42,13 +42,13 @@ class AddOtherDialog(wx.Dialog):
         self.itemName = wx.TextCtrl(self, -1, value='', size=(350,-1))
         self.itemAmount = wx.TextCtrl(self, -1, value='')
         self.itemUnit = wx.ComboBox(self, -1, 
-            choices=pyBrew.BrewData.Quantity.AllUnits)
+            choices=pyBrew.BrewObjects.Quantity.AllUnits)
         self.okButton = wx.Button(self, wx.ID_OK, okButtonText)
         self.cancelButton = wx.Button(self, wx.ID_CANCEL, 'Cancel')
 
         #Set Values
         try:
-            unit_id = pyBrew.BrewData.Quantity.AllUnits.index(
+            unit_id = pyBrew.BrewObjects.Quantity.AllUnits.index(
                             inputOther.amount.Unit())
         except ValueError:
             unit_id = 0
@@ -92,6 +92,6 @@ class AddOtherDialog(wx.Dialog):
         except:
             return None
             
-        return pyBrew.BrewData.Other(self.itemName.GetValue(),
-                     pyBrew.BrewData.Quantity(amt, self.itemUnit.GetValue()))
+        return pyBrew.BrewObjects.Other(self.itemName.GetValue(),
+                    pyBrew.BrewObjects.Quantity(amt, self.itemUnit.GetValue()))
         

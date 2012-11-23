@@ -22,40 +22,61 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
+import os
 
-import pickle
-
-from projectData import Project
-from recipeData import Recipe
+from project import Project
+from recipe import Recipe
 
 ###############################################################################
-class RootData(object):
+class Data(object):
     """
-    Main data class object, saves and manages all user data
+    Main data class object, holds a list of projects and a list of recipes
     """
-    #----------------------------------------------------------------------
-    @classmethod
-    def Load(cls, filename='mydata.brew'):
-        try:
-            data = pickle.load(open('UserData/'+filename, 'rb'))
-        except IOError:
-            data = RootData()
-            pickle.dump(data, open('UserData/'+filename, 'wb'), -1)
-        return data
-        
     #----------------------------------------------------------------------
     def __init__(self):
-        self.projects = [Project()]
-        self.recipes = [Recipe()]
-
+        """
+        Look in 'UserData' and get all project and recipe files. Initialize
+        all projects and recipes from these files. Since there must always
+        be at least one of each, if none are found, make a new one.
+        """
+        datapath = os.path.join(os.getcwd(), 'UserData')
+        items = os.listdir(datapath)
+        
+        projfiles = [f for f in items if f.endswith('.proj')]
+        recipefiles = [f for f in items if f.endswith('.recip')]
+        
+        self.projects = []
+        self.recipes = []
+        
+        if projfiles:
+            for proj in projfiles:
+                self.projects.append( Project(os.path.join(datapath, proj)) )
+        else:
+            self.projects.append( Project('New Project') )
+            
+        if recipefiles:
+            for recipe in recipefiles:
+                self.recipes.append( Recipe(os.path.join(datapath, recipe)) )
+        else:
+            self.recipes.append( Recipe('New Recipe') )
+            
     #----------------------------------------------------------------------
     def getProjectNames(self):
+        """ Get a list of all project names """
         return [project.name for project in self.projects]
         
     #----------------------------------------------------------------------
     def getRecipeNames(self):
+        """ Get a list of all recipe names """
         return [recipe.name for recipe in self.recipes]
 
     #----------------------------------------------------------------------
-    def Save(self, filename='mydata.brew'):
-        pickle.dump(self, open('UserData/'+filename, 'wb'), -1)
+    def Save(self):
+        """ Call Save() on each project and recipe """
+        for project in self.projects:
+            project.Save()
+            
+        for recipe in self.recipes:
+            recipe.Save()
+            
+            

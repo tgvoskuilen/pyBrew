@@ -23,9 +23,19 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
+import re
          
 ###############################################################################    
 def NumString(num, mode='Dec'):
+    """
+    Convert a number to a string in:
+        Decimal (Dec = 1.5 or 12 (2 significant digits))
+        Attenuation (Atten = 71.5)
+        Integer (Int = 3)
+        Gravity (Gravity = 1.015)
+    If the number is invalid or zero (or a gravity of 1) a blank string is
+    returned instead.
+    """
     if num == 0. or (num <= 1. and mode == 'Gravity'):
         num_string = ''
     else:
@@ -44,6 +54,9 @@ def NumString(num, mode='Dec'):
     
 ###############################################################################
 def GetFloat(string, default=0.):
+    """
+    Convert a string back into a number
+    """
     try:
         num = float(string)
     except ValueError:
@@ -53,5 +66,31 @@ def GetFloat(string, default=0.):
 ###############################################################################
 def Mean(tuple):
     return 0.5*(tuple[0] + tuple[1])
-    
-    
+
+###############################################################################
+def Mean(x):
+    return sum(x)/len(x)
+
+###############################################################################
+def SGToBrix(SG):
+    #http://www.brewersfriend.com/brix-converter/
+    return (((182.4601 * SG -775.6821) * SG +1262.7794) * SG -669.5622)
+
+###############################################################################
+def BrixToSG(Brix):
+    #http://www.brewersfriend.com/brix-converter/
+    return (Brix / (258.6-((Brix / 258.2)*227.1))) + 1.0
+
+###############################################################################
+def ReadLine(line, string):
+    getParam = re.search(r'('+string+r':) (.+)', line)
+    args = getParam.group(2).strip()
+    args = args.split(' ')
+    num = args[0]
+    if len(args)>1:
+        unit = " ".join(args[1:])
+        return num, unit
+    else:
+        return num, ''
+        
+###############################################################################

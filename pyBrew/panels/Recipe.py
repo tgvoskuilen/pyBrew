@@ -100,7 +100,7 @@ class Main(wx.Panel):
         
     #----------------------------------------------------------------------
     def UpdateRecipeData(self, event):
-        """ Update project values """
+        """ Update recipe values """
         self.recipe.name = self.name.GetValue()
         self.recipe.description = self.description.GetValue()
         self.recipe.targetOG = GetFloat(self.targetOG.GetValue())
@@ -111,6 +111,11 @@ class Main(wx.Panel):
         
     #----------------------------------------------------------------------
     def ChangeRecipe(self, event):
+        """
+        Respond to a change in the currently selected recipe. First check if
+        a save is needed. If so, let the user veto it here before passing the
+        change to the parent.
+        """
         doChange = True
         if self.recipe != self.parent.data.recipes[self.parent._dispID]:
             ans = pyBrew.dialogs.SaveMessage(self.recipe.name).ShowModal()
@@ -118,7 +123,7 @@ class Main(wx.Panel):
                 self.SaveRecipe()
             doChange = (ans == wx.ID_NO or ans == wx.ID_YES)
         if doChange:
-            self.parent.ChangeActiveDataItem(event.GetSelection())
+            self.parent.ChangeActiveDataItem(event.GetSelection(), False)
             self.LoadData()
         else:
             self.recipeSelection.SetSelection(self.parent._dispID)

@@ -28,6 +28,15 @@ from pyBrew.pyBrewMethods import NumString
 
 ###############################################################################
 class Range(object):
+    """
+    The range class is essentially an uncertainty class, it stores a number, 
+    and its variation range (a center mean and error). It allows this range
+    to be propogated through arithmetic normally.
+    
+    For example, given an attenuation of 70-75% (72.5% +/- 2.5%) what is the
+    expected range of ABV?
+    
+    """
     #--------------------------------------------------------------------------
     def __init__(self, vals, rangeMode=False):
         if rangeMode:
@@ -120,7 +129,11 @@ class Range(object):
     
     #--------------------------------------------------------------------------
     def __str__(self):
-        return str(self._mean) + ' +/- ' + str(self._err)
+        if self._mean != 0.0:
+            return (NumString(self._mean-self._err) + ' - ' 
+                    + NumString(self._mean+self._err))
+        else:
+            return '0'
         
     #--------------------------------------------------------------------------
     def Format(self, mode='Dec'):

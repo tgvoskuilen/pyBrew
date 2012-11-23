@@ -22,33 +22,154 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
-
-from fermData import Fermentable
-from hopData import Hop
-from otherData import Other
-from yeastData import Yeast
-from quantity import Quantity
-
 import os
+
+from fermentable import Fermentable
+from hop import Hop
+from other import Other
+from yeast import Yeast
+from quantity import Quantity
+from brewfile import BrewFile
+
 from pyBrew.pyBrewMethods import GetFloat
+from pyBrew.pyBrewMethods import NumString
+from pyBrew.pyBrewMethods import ReadLine
 
 ###############################################################################
-class Recipe(object):
+class Recipe(BrewFile):
     """
     This class contains the data saved for each recipe.
     """
     #----------------------------------------------------------------------
-    def __init__(self, name='New Recipe'):
-        self.name = name
-        self.batchSize = 0.
-        self.targetOG = 0.
-        self.description = 'Add a description'
-        self.instructions = 'Add instructions'
+    def __init__(self, path, is_new=False):
+        BrewFile.__init__(self, path,'recip',is_new)
+        
         self.fermentables = []
         self.hops = []
         self.yeasts = []
         self.otherIngredients = []
+        self.batchSize = 0.
+        self.targetOG = 0.
+        self.description = 'Add a description'
+        self.instructions = 'Add instructions'
         
+        if not self.name:
+            # Read project from existing file
+            self.ReadFile()
+            
+        else:
+            self.WriteFile()
+
+            
+            
+    #----------------------------------------------------------------------    
+    def ReadFile(self):
+        
+        try:
+            lines = self.GetLines()
+            self.name = self.GetTitle(lines)
+ 
+            self.CheckName()
+            
+            sections = self.GetSections(lines)
+                
+            #Load section by section
+            if "Recipe Summary" in sections:
+                for line in sections['Recipe Summary']:
+                
+                    if 'recipe size' in line.lower():
+                        amt, unit = ReadLine(line.lower(), "recipe size")
+                        self.batchSize = GetFloat(amt) #TODO Use Quantity()
+                        
+                    if 'Target OG' in line:
+                        amt, unit = ReadLine(line, "Target OG")
+                        self.targetOG = GetFloat(amt)
+                            
+                
+            if "Description" in sections:
+                self.description = ''.join(sections['Description'])
+                
+            if "Instructions" in sections:
+                self.description = ''.join(sections['Instructions'])
+                
+            if "Ingredients" in sections:
+                reading ={'Hops':False, 
+                          'Fermentables':False, 
+                          'Yeasts':False, 
+                          'Other':False}
+                          
+                for line in sections['Ingredients']:
+                
+                    for key in reading:
+                        if reading[key] and not line.strip():
+                            reading[key] = False
+                            break
+                            
+                    if reading['Hops']:
+                        self.hops.append( self.ReadHop(line) )
+                    
+                    if reading['Fermentables']:
+                        self.fermentables.append( self.ReadFermentable(line) )
+                        
+                    if reading['Yeasts']:
+                        self.yeasts.append( self.ReadYeast(line) )
+                    
+                    if reading['Other']:
+                        self.otherIngredients.append( self.ReadOther(line) )
+                    
+                    
+                    if 'Hops List' in line:
+                        reading['Hops'] = True
+                        
+                    if 'Fermentables List' in line:
+                        reading['Fermentables'] = True
+                        
+                    if 'Yeast List' in line:
+                        reading['Yeasts'] = True
+                        
+                    if 'Other Ingredients' in line:
+                        reading['Other'] = True
+                
+                
+            return True
+            
+        except IOError:
+            return False
+
+    #----------------------------------------------------------------------    
+    def WriteFile(self):
+        f = open(self.path, 'w')
+        self.WriteHeader(f)
+        
+        self.WriteSection(f,'Recipe Summary')
+        self.WriteArg(f, 'Recipe size', str(self.batchSize), 'gallons')
+        self.WriteArg(f, 'Target OG', NumString(self.targetOG,'Gravity')) 
+        
+        self.WriteSection(f,'\nDescription')
+        f.write(self.description)
+        
+        self.WriteSection(f,'\nInstructions')
+        f.write(self.instructions)
+        
+        self.WriteSection(f,'\nIngredients')
+        
+        f.write('\n  Fermentables List:\n')
+        for ferm in self.fermentables:
+            self.WriteFermentable(f,ferm)
+            
+        f.write('\n  Hops List:\n')
+        for hop in self.hops:
+            self.WriteHop(f,hop)
+            
+        f.write('\n  Yeast List:\n')
+        for yeast in self.yeasts:
+            f.write('    '+yeast.name+'\n')
+            
+        if self.otherIngredients:
+            f.write('\n  Other Ingredients:\n')
+            for other in self.otherIngredients:
+                self.WriteOther(f,other)
+              
     #----------------------------------------------------------------------
     def Scale(self, scale_factor):
         self.batchSize *= scale_factor

@@ -24,15 +24,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import wx
-import pyBrew.BrewData
+import pyBrew.BrewObjects
 import pyBrew.Databases
 
 ###############################################################################
 class AddHopDialog(wx.Dialog):
     """ Add/edit hops in Project Window """
     #----------------------------------------------------------------------
-    def __init__(self, parent, id, title, inputHop=pyBrew.BrewData.Hop('', 
-                    pyBrew.BrewData.Quantity(0,'ounces'), 0, 0, 'Pellets'),
+    def __init__(self, parent, id, title, inputHop=pyBrew.BrewObjects.Hop('', 
+                    pyBrew.BrewObjects.Quantity(0,'ounces'), 0, 0, 'Pellets'),
                  okButtonText='Add'):
                  
         wx.Dialog.__init__(self, parent, id, title, size=(-1,-1))
@@ -123,8 +123,8 @@ class AddHopDialog(wx.Dialog):
         except ValueError:
             return None
             
-        return pyBrew.BrewData.Hop(self.hopSelect.GetValue(),
-                   pyBrew.BrewData.Quantity(hopAmt,'ounces'),
+        return pyBrew.BrewObjects.Hop(self.hopSelect.GetValue(),
+                   pyBrew.BrewObjects.Quantity(hopAmt,'ounces'),
                    boilTime, aau, self.hopForm.GetValue())
 
     #----------------------------------------------------------------------

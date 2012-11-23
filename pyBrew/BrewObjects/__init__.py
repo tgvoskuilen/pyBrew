@@ -23,12 +23,13 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from mainData import *
-from recipeData import *
-from projectData import *
-from fermData import *
-from hopData import *
-from yeastData import *
-from otherData import *
+from data import *
+from recipe import *
+from project import *
+from fermentable import *
+from hop import *
+from yeast import *
+from other import *
 from quantity import *
-from styleData import *
+from style import *
+from brewfile import *

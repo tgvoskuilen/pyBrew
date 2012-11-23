@@ -24,7 +24,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import wx
-import pickle
 
 from pyBrew.pyBrewMethods import *
 import pyBrew.Databases
@@ -124,7 +123,11 @@ class Main(wx.Panel):
         self.Bind(wx.EVT_TEXT, self.UpdateProjectData, self.boilTime)
         self.Bind(wx.EVT_TEXT, self.UpdateProjectData, self.daysInPrimary)
         self.Bind(wx.EVT_TEXT, self.UpdateProjectData, self.daysInSecondary)
-        self.brewDate.Bind(wx.EVT_LEFT_DOWN, self.clickedDate)
+        
+        #Launch the calendar popup when the date box is clicked
+        #self.brewDate.Bind(wx.EVT_LEFT_DOWN, self.clickedDate)
+        
+        #Set the save button
         self.Bind(wx.EVT_BUTTON, self.SaveProject, self.save)
         
         #Set the panel sizer
@@ -136,7 +139,7 @@ class Main(wx.Panel):
     
     #----------------------------------------------------------------------
     def ChangeStyle(self, event):
-        self.project.style=pyBrew.BrewData.Style(self.projectStyle.GetValue())
+        self.project.style=pyBrew.BrewObjects.Style(self.projectStyle.GetValue())
         self.projectStyle.SetSelection(
                 pyBrew.Databases.StyleDb.GetID(self.projectStyle.GetValue()))
         self.projectStyle.SetValue(self.project.style.name)
@@ -169,7 +172,7 @@ class Main(wx.Panel):
                 self.SaveProject()
             doChange = (ans == wx.ID_NO or ans == wx.ID_YES)
         if doChange:
-            self.parent.ChangeActiveDataItem(event.GetSelection())
+            self.parent.ChangeActiveDataItem(event.GetSelection(), False)
             self.LoadData()
         else:
             self.projSelection.SetSelection(self.parent._dispID)
@@ -640,7 +643,7 @@ class Yeast(wx.Panel):
     #----------------------------------------------------------------------
     def updateYeastType(self, event):
         """ Update project yeast type and recalculate values """
-        self.project.yeast = pyBrew.BrewData.Yeast(self.yeastType.GetValue())
+        self.project.yeast = pyBrew.BrewObjects.Yeast(self.yeastType.GetValue())
         desc = pyBrew.Databases.YeastDb.Description(self.yeastType.GetValue())
         self.yeastDesc.SetLabel(desc)
         self.yeastDesc.Wrap(550)

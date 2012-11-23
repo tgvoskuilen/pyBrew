@@ -24,14 +24,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import wx
-import pyBrew.BrewData
+import pyBrew.BrewObjects
 import pyBrew.Databases
 
 ###############################################################################
 class AddYeastDialog(wx.Dialog):
     """ Add/Edit yeast item dialog window """
     #----------------------------------------------------------------------
-    def __init__(self, parent, id, title, inputYeast=pyBrew.BrewData.Yeast(''),
+    def __init__(self, parent, id, title, inputYeast=pyBrew.BrewObjects.Yeast(''),
                  okButtonText='Add'):
         wx.Dialog.__init__(self, parent, id, title, size=(450,500))
 
@@ -95,7 +95,7 @@ class AddYeastDialog(wx.Dialog):
     #----------------------------------------------------------------------
     def GetNewItem(self):
         if self.yeastSelect.GetSelection() >= 0:
-            return pyBrew.BrewData.Yeast(self.yeastSelect.GetValue())
+            return pyBrew.BrewObjects.Yeast(self.yeastSelect.GetValue())
         else:
             return None
 

@@ -30,28 +30,35 @@ import wx.lib.agw.labelbook as LB
 import wx.lib.agw.flatnotebook as fnb
 
 import panels
-import BrewData
+import BrewObjects
 import dialogs
+
+import wx.lib.agw.genericmessagedialog as GMD
 
 ###############################################################################
 class MainFrame(wx.Frame):
     """
-    The main frame that contains the data object and top-level notebook
+    The main frame that contains the data object and top-level notebook.
     """
     #----------------------------------------------------------------------
     def __init__(self):        
         wx.Frame.__init__(self, None, -1, "pyBrew", size=(820,650))
         
         #Get a data object, contained by this Frame
-        self.data = BrewData.RootData().Load()
+        self.data = BrewObjects.Data()
         
         #Create Menu bar and menus
         self.topMenu = wx.MenuBar()
         self.fileMenu = wx.Menu()
         self.projectMenu = wx.Menu()
         self.recipeMenu = wx.Menu()
+        self.calculatorMenu = wx.Menu()
         self.aboutMenu = wx.Menu()
         
+        #Calculator Menu
+        self.mRefractCalc = self.calculatorMenu.Append(-1, '&Refractometer FG',
+                      'Calculate FG from a refractometer')
+
         #File Menu
         self.mSave = self.fileMenu.Append(-1, '&Save All',
                                           'Save changes to project')
@@ -63,19 +70,12 @@ class MainFrame(wx.Frame):
         self.mNewP = self.projectMenu.Append(-1,'&New Project','New Project')
         self.mDeleteP = self.projectMenu.Append(-1,'&Delete Project',
                                                 'Delete Project')
-        self.mExportP = self.projectMenu.Append(-1, '&Export Project',
-                                          'Export project to text file')
-        self.mImportP = self.projectMenu.Append(-1, '&Import Project',
-                                          'Import project from text file')
                                           
         #Recipe Menu
         self.mNewR = self.recipeMenu.Append(-1,'&New Recipe','New Recipe')
         self.mDeleteR = self.recipeMenu.Append(-1,'&Delete Recipe',
                                                'Delete Recipe')
-        self.mExportR = self.recipeMenu.Append(-1, '&Export Recipe',
-                                          'Export recipe to text file')
-        self.mImportR = self.recipeMenu.Append(-1, '&Import Recipe',
-                                          'Import recipe from text file')        
+       
         #About menu
         self.mAbout = self.aboutMenu.Append(-1, '&About', 'About')
         
@@ -83,6 +83,7 @@ class MainFrame(wx.Frame):
         self.topMenu.Append(self.fileMenu, '&File')
         self.topMenu.Append(self.projectMenu, '&Projects')
         self.topMenu.Append(self.recipeMenu, '&Recipes')
+        self.topMenu.Append(self.calculatorMenu, '&Calculators')
         self.topMenu.Append(self.aboutMenu, '&Help')
         self.SetMenuBar(self.topMenu)
                                           
@@ -95,6 +96,7 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.DoSaves, self.mSave)
         self.Bind(wx.EVT_MENU, self.ShutDown, self.mQuit)
         self.Bind(wx.EVT_MENU, self.ShowAbout, self.mAbout)
+        self.Bind(wx.EVT_MENU, self.RefractCalc, self.mRefractCalc)
         self.Bind(wx.EVT_MENU,
             lambda evt, act='New': self.ModifyItems(evt,act,'Project'),
             self.mNewP)
@@ -102,95 +104,60 @@ class MainFrame(wx.Frame):
             lambda evt, act='Delete': self.ModifyItems(evt,act,'Project'),
             self.mDeleteP)
         self.Bind(wx.EVT_MENU,
-            lambda evt, act='Export': self.ModifyItems(evt,act,'Project'),
-            self.mExportP)
-        self.Bind(wx.EVT_MENU,
-            lambda evt, act='Import': self.ModifyItems(evt,act,'Project'),
-            self.mImportP)
-        self.Bind(wx.EVT_MENU,
             lambda evt, act='New': self.ModifyItems(evt,act,'Recipe'),
             self.mNewR)
         self.Bind(wx.EVT_MENU,
             lambda evt, act='Delete': self.ModifyItems(evt,act,'Recipe'),
             self.mDeleteR)
-        self.Bind(wx.EVT_MENU,
-            lambda evt, act='Export': self.ModifyItems(evt,act,'Recipe'),
-            self.mExportR)
-        self.Bind(wx.EVT_MENU,
-            lambda evt, act='Import': self.ModifyItems(evt,act,'Recipe'),
-            self.mImportR)
         self.mSave.Enable(False)
        
     #----------------------------------------------------------------------
+    def RefractCalc(self, event):
+        dialogs.FGCalculatorDialog(self).ShowModal()
+    
+    #----------------------------------------------------------------------
     def ShowAbout(self, event):
-        dialogs.About(self).ShowModal()
-        
-    #----------------------------------------------------------------------
-    def DoImport(self, type='Project'):
-        dlg = dialogs.GetFilePath(self, type, 'Import')
-        ans = dlg.ShowModal()
-        if ans == wx.ID_OK:
-            if type == 'Project':
-                self.data.projects.append(BrewData.Project())
-                imported = self.data.projects[-1].Import(dlg.GetPath())
-                if not imported:
-                    del self.data.projects[-1]
-                    ed = dialogs.ImportError(dlg.GetFilename(),type).ShowModal()
-            else:
-                self.data.recipes.append(BrewData.Recipe())
-                imported = self.data.recipes[-1].Import(dlg.GetPath())
-                if not imported:
-                    del self.data.recipes[-1]
-                    ed = dialogs.ImportError(dlg.GetFilename(),type).ShowModal()
+        dlg = GMD.GenericMessageDialog(self, 
+            "This is pyBrew Version 1.0\n\n"+
+            "Created by Tyler Voskuilen\n\n"+
+            "Copyright (c) 2012", 
+            "About pyBrew", 
+            wx.ICON_INFORMATION|wx.CANCEL)
+        dlg.ShowModal()
         dlg.Destroy()
         
-    #----------------------------------------------------------------------
-    def DoExport(self, id, type='Project'):
-        dlg = dialogs.GetFilePath(self, type, 'Export')
-        ans = exportDlg.ShowModal()
-        if ans == wx.ID_OK:
-            if type == 'Project':
-                self.data.projects[id].Export(dlg.GetPath())
-            else:
-                self.data.recipes[id].Export(dlg.GetPath())
-        dlg.Destroy()
-        
-        
+ 
     #----------------------------------------------------------------------
     def ModifyItems(self, event, action='New', type='Project'):
-        if action == 'Import':
-            self.DoImport(type)
-        else:
-            dlg = dialogs.ModifyTopItems(self, action, type)
-            ans = dlg.ShowModal()
-            if ans == wx.ID_OK:
-                if action == 'New':
+        dlg = dialogs.ModifyTopItems(self, action, type)
+        ans = dlg.ShowModal()
+        if ans == wx.ID_OK:
+            if action == 'New':
+                if type == 'Project':
+                    self.data.projects.append(
+                        BrewObjects.Project(dlg.text.GetValue(),True))
+                else:
+                    self.data.recipes.append(
+                        BrewObjects.Recipe(dlg.text.GetValue(),True))
+                self.data.Save()
+                        
+            elif action == 'Delete':
+                id = dlg.text.GetSelection()
+                if id >= 0:
                     if type == 'Project':
-                        self.data.projects.append(
-                            BrewData.Project(dlg.text.GetValue()))
+                        self.DeleteProject(id)
                     else:
-                        self.data.recipes.append(
-                            BrewData.Recipe(dlg.text.GetValue()))
-                    self.data.Save()
-                            
-                elif action == 'Delete':
-                    id = dlg.text.GetSelection()
-                    if id >= 0:
-                        if type == 'Project':
-                            self.DeleteProject(id)
-                        else:
-                            self.DeleteRecipe(id)
-                    self.data.Save()
-                elif action == 'Export':
-                    self.DoExport(dlg.text.GetSelection(), type)
-                    
-            dlg.Destroy()
+                        self.DeleteRecipe(id)
+                self.data.Save()
+
+        dlg.Destroy()
         self.Notebook.browser.LoadActivePanel()
         
     #----------------------------------------------------------------------
     def DeleteProject(self, id):
         ans = dialogs.ConfirmDelete(self.data.projects[id].name).ShowModal()
         if ans == wx.ID_YES:
+            self.data.projects[id].DeleteFile()
             del self.data.projects[id]
             self.Notebook.projectBook._activeDataItem = None
             self.Notebook.projectBook.ChangeActiveDataItem(0,False)
@@ -200,6 +167,7 @@ class MainFrame(wx.Frame):
     def DeleteRecipe(self, id):
         ans = dialogs.ConfirmDelete(self.data.recipes[id].name).ShowModal()
         if ans == wx.ID_YES:
+            self.data.recipes[id].DeleteFile()
             del self.data.recipes[id]
             self.Notebook.recipeBook._activeDataItem = None
             self.Notebook.recipeBook.ChangeActiveDataItem(0,False)
@@ -306,10 +274,17 @@ class MyLabelBook(LB.LabelBook):
        
     #----------------------------------------------------------------------
     def Save(self, type):
+        """
+        Move the active data item into the main data list and mark it as
+        changed. Then call mainData.Save() to save all changed items.
+        
+        """
         if type == 'project':
             self.data.projects[self._dispID] = self._activeDataItem
+            self.data.projects[self._dispID].hasChanged = True
         elif type == 'recipe':
             self.data.recipes[self._dispID] = self._activeDataItem
+            self.data.recipes[self._dispID].hasChanged = True
         self.data.Save()
         self.ChangeActiveDataItem(self._dispID)
         self.LoadActivePanel()
@@ -348,7 +323,7 @@ class MyNotebook(fnb.FlatNotebook): #wx.Notebook):
     def __init__(self, parent):
         fnb.FNB_HEIGHT_SPACER = 20
         fnb.FlatNotebook.__init__(self, parent, id=wx.ID_ANY,
-                                  agwStyle=fnb.FNB_NO_X_BUTTON|fnb.FNB_NO_NAV_BUTTONS|fnb.FNB_NODRAG|fnb.FNB_FF2)
+             agwStyle=fnb.FNB_NO_X_BUTTON|fnb.FNB_NO_NAV_BUTTONS|fnb.FNB_NODRAG|fnb.FNB_FF2)
                                   
         bgcolor = wx.Colour(240,240,240)
         self.SetTabAreaColour(bgcolor) 
@@ -361,8 +336,8 @@ class MyNotebook(fnb.FlatNotebook): #wx.Notebook):
         self.AddPage(self.browser, "Home")
         
         #Add Calendar panel
-        self.calendar = panels.Calendar(self)
-        self.AddPage(self.calendar, "Calendar")
+        #self.calendar = panels.Calendar(self)
+        #self.AddPage(self.calendar, "Calendar")
         
         #Add panels with ListBook nav windows
         self.projectBook = MyLabelBook(self,'project')
@@ -395,8 +370,8 @@ class MyNotebook(fnb.FlatNotebook): #wx.Notebook):
         self.recipeBook.SetPages(recipePages,160)
 
         #Add Style panel
-        self.styles = panels.Styles(self)
-        self.AddPage(self.styles, "Styles")
+        #self.styles = panels.Styles(self)
+        #self.AddPage(self.styles, "Styles")
         
         #Make the tabs extra wide
         #self.SetPadding(40)
@@ -416,6 +391,9 @@ class MyNotebook(fnb.FlatNotebook): #wx.Notebook):
         """ 
         Allow a page change unless the item being changed to is an empty list,
         in which case, veto the page change.
+        
+        For example, you can't select the "Projects" tab if there are zero
+        projects in the project list.
         """
         name=event.EventObject.GetChildren()[event.GetSelection()+1].GetName()
         allow = True
@@ -438,12 +416,12 @@ class MyNotebook(fnb.FlatNotebook): #wx.Notebook):
     def SetToProjects(self, pid):
         self.projectBook.ChangeActiveDataItem(pid) #Load project 'pid'
         self.projectBook.SetSelection(0)           #Set to overview tab
-        self.SetSelection(2)                       #Switch to projects tab
-        self.GetChildren()[3].LoadActivePanel()
+        self.SetSelection(1)                       #Switch to projects tab
+        self.GetChildren()[2].LoadActivePanel()
         
     #----------------------------------------------------------------------
     def SetToRecipes(self, rid):
         self.recipeBook.ChangeActiveDataItem(rid) #Load recipe 'rid'
         self.recipeBook.SetSelection(0)           #Set to overview tab
-        self.SetSelection(3)                      #Switch to recipes tab
-        self.GetChildren()[4].LoadActivePanel()
+        self.SetSelection(2)                      #Switch to recipes tab
+        self.GetChildren()[3].LoadActivePanel()

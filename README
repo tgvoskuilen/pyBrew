@@ -1,3 +1,5 @@
+pyBrew
+====================
 pyBrew is an open source cross-platform homebrewing program built with wxPython.
 
 It is in 'Alpha', so it could use some refinement and new features, but is
@@ -8,18 +10,37 @@ that wxPython works in.
 
 Check out some screenshots in the screenshots folder to see how the interface looks.
 
-** Usage Guide **
+Installation
+--------------------------------------------
+
+### Ubuntu
+
+Make sure python 2.7 is installed and install wxPython with
+
+    sudo apt-get install python-wxgtk2.8
+
+### Windows 7
+
+First install python 2.7 for Windows (http://www.python.org/getit/), 
+then install wxPython 2.8 with the appropriate
+Windows binary from (http://www.wxpython.org/download.php)
+
+
+### Mac OSX and Others
+
+Follow the instructions for Windows 7, but choose the Mac installers instead.
+I have not tested this.
+
+
+Usage Guide
+--------------------------------------------
 
 Home:
   pyBrew manages your projects and recipes. The Home panel shows all your
   current ones. You can add new ones with the top menus. All your data is pickled
   in the UserData folder. If you want it in a more portable format, use the
   "Export Project" to get a text file.
-  
-Calendar:
-  The calendar is not finished yet, but could show your projects, and when
-  you are due to bottle or taste them.
-  
+   
 Projects:
   This is the project explorer, which shows the details of each project.
   Use the tabs on the left to navigate categories and as you add your ingredients
@@ -29,12 +50,7 @@ Projects:
 Recipes:
   Upload your favorite recipes here. A potential future feature would be to auto-load
   a recipe into a new project.
-  
-Styles:
-  This panel is not implemented yet, but a few styles are hard coded. This would
-  offer the potential to add new styles, which you can compare to your projects
-  as you brew (target gravities, color, IBUs, etc...)
-  
+    
 If you have any suggestions for features and can help add them, feel free to
 contribute!
 

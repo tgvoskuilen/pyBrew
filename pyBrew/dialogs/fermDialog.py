@@ -24,7 +24,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import wx
-import pyBrew.BrewData
+import pyBrew.BrewObjects
 import pyBrew.Databases
 
 ###############################################################################
@@ -32,8 +32,8 @@ class AddFermDialog(wx.Dialog):
     """ Add/Edit fermentable item dialog window """
     #----------------------------------------------------------------------
     def __init__(self, parent, id, title, 
-                 inputFerm = pyBrew.BrewData.Fermentable('', 
-                    pyBrew.BrewData.Quantity(0,'pounds')),
+                 inputFerm = pyBrew.BrewObjects.Fermentable('', 
+                    pyBrew.BrewObjects.Quantity(0,'pounds')),
                  okButtonText = 'Add'):
                  
         wx.Dialog.__init__(self, parent, id, title, size=(-1,-1))
@@ -44,7 +44,7 @@ class AddFermDialog(wx.Dialog):
             style=wx.CB_READONLY, size=(250,-1))
         self.fermAmount = wx.TextCtrl(self, -1, value='')
         self.fermAmountUnit = wx.ComboBox(self, -1,
-            choices=pyBrew.BrewData.Quantity.WeightUnits,
+            choices=pyBrew.BrewObjects.Quantity.WeightUnits,
             style=wx.CB_READONLY, size=(100,-1))
         self.okButton = wx.Button(self, wx.ID_OK, okButtonText)
         self.cancelButton = wx.Button(self, wx.ID_CANCEL, 'Cancel')
@@ -57,7 +57,7 @@ class AddFermDialog(wx.Dialog):
             pyBrew.Databases.FermDb.GetID(inputFerm.name))
         self.fermAmount.SetValue(amt)
         self.fermAmountUnit.SetSelection(
-            pyBrew.BrewData.Quantity.WeightUnits.index(
+            pyBrew.BrewObjects.Quantity.WeightUnits.index(
                 inputFerm.amount.Unit()))
         
         #Make Labels
@@ -98,7 +98,7 @@ class AddFermDialog(wx.Dialog):
         self.SetSizer(vBox)
         vBox.Fit(self)
         
-        self.Bind(wx.wx.EVT_COMBOBOX, self.UpdateSelection, self.fermSelect)
+        self.Bind(wx.EVT_COMBOBOX, self.UpdateSelection, self.fermSelect)
 
     #----------------------------------------------------------------------
     def GetNewItem(self):
@@ -107,8 +107,8 @@ class AddFermDialog(wx.Dialog):
         except:
             return None
             
-        return pyBrew.BrewData.Fermentable(self.fermSelect.GetValue(),
-            pyBrew.BrewData.Quantity(fermAmt,self.fermAmountUnit.GetValue()))
+        return pyBrew.BrewObjects.Fermentable(self.fermSelect.GetValue(),
+            pyBrew.BrewObjects.Quantity(fermAmt,self.fermAmountUnit.GetValue()))
 
     #----------------------------------------------------------------------
     def UpdateSelection(self, event):
