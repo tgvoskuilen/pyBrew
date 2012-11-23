@@ -19,12 +19,22 @@ at the terminal) then install wxPython with
 
     sudo apt-get install python-wxgtk2.8
 
+Clone this repo to a folder on your computer with
+
+    git clone git://github.com/tgvoskuilen/pyBrew.git
+    
+Run the <code>runPyBrew.py</code> script to open the program.
+
 ### Windows 7
 
 First install python 2.7 for [Windows](http://www.python.org/getit/), 
 then install wxPython 2.8 with the appropriate
 [Windows binary](http://www.wxpython.org/download.php)
 
+Then download the source files for 
+[pyBrew](http://www.github.com/tgvoskuilen/pyBrew/archive/master.zip) and
+unzip them to a folder anywhere on your computer. Double click on 
+<code>runPyBrew.py</code> to start the program.
 
 ### Mac OSX and Others
 
