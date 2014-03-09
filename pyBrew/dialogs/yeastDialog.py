@@ -90,7 +90,6 @@ class AddYeastDialog(wx.Dialog):
         desc = pyBrew.Databases.YeastDb.Description(self.yeastSelect.GetValue())
         self.yeastDesc.SetLabel(desc)
         self.yeastDesc.Wrap(400)
-        #self.Layout()
             
     #----------------------------------------------------------------------
     def GetNewItem(self):

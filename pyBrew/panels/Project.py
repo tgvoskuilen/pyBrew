@@ -28,6 +28,7 @@ import wx
 from pyBrew.pyBrewMethods import *
 import pyBrew.Databases
 import pyBrew.dialogs
+import pyBrew.BrewObjects
 
 ###############################################################################
 class Main(wx.Panel):
@@ -408,14 +409,14 @@ class Hops(wx.Panel):
                             (1, 'oz.', 50),
                             (2, 'Boil Time', -1),
                             (3, 'AAU', 50),
-                            (4, 'Form', -1),
+                            (4, 'Form', 100),
                             (5, 'Use (%)', -1),
                             (6, 'IBU', 50)],
                            [pyBrew.dialogs.AddHopDialog],
                            (-1,250), ['Hop'])
 
         self.hopFormula = wx.ComboBox(self, -1, 
-                                choices=pyBrew.Databases.HopDb.FormulaNames,
+                                choices=pyBrew.BrewObjects.Hop.FormulaNames,
                                 size=(130,-1), style=wx.CB_READONLY)
                                       
         self.BUGU     = wx.TextCtrl(self, -1, size=(100,-1),
@@ -480,7 +481,7 @@ class Hops(wx.Panel):
         #print "Load data in panels.Project.Hops"
         self.project = self.parent._activeDataItem
         self.hopFormula.SetSelection(
-            pyBrew.Databases.HopDb.FormulaNames.index(
+            pyBrew.BrewObjects.Hop.FormulaNames.index(
                 self.project.hopFormulaName))
         self.styleIBU.ChangeValue(self.project.style.IBU.Format('Int'))
         self.hopList.dataLists = [self.project.hops]

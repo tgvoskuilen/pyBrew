@@ -45,7 +45,7 @@ class AddHopDialog(wx.Dialog):
         self.hopBoilTime = wx.TextCtrl(self, -1, value='')
         self.hopAAU = wx.TextCtrl(self, -1, value='')
         self.hopForm = wx.ComboBox(self, -1,
-            choices=pyBrew.Databases.HopDb.Forms,
+            choices=pyBrew.BrewObjects.Hop.Forms,
             style=wx.CB_READONLY)
         self.okButton = wx.Button(self, wx.ID_OK, okButtonText)
         self.cancelButton = wx.Button(self, wx.ID_CANCEL, 'Cancel')
@@ -57,7 +57,7 @@ class AddHopDialog(wx.Dialog):
         aau = str(inputHop.aau) if inputHop.aau > 0 else ''
             
         try:
-            form_id = pyBrew.Databases.HopDb.Forms.index(inputHop.form)
+            form_id = pyBrew.BrewObjects.Hop.Forms.index(inputHop.form)
         except ValueError:
             form_id = 0 #Default to pellets
         

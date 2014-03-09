@@ -64,7 +64,7 @@ class Project(BrewFile):
         self.actualFG = 0.      
         self.notes = ''
         self.yeast = Yeast() #TODO: make this a list?
-        self.hopFormulaName = 'Tinseth'
+        self.hopFormulaName = 'Rager'
         
         
         if not self.name:
@@ -98,11 +98,7 @@ class Project(BrewFile):
     #----------------------------------------------------------------------            
     def ReadFile(self):
         """
-        Project file format rules:
-          1. The title must be on the second line, in the format:
-               * <title>   *
-          2. 
-        
+        Reads project file
         """
         
         try:
@@ -305,9 +301,8 @@ class Project(BrewFile):
         #Hops/Bitterness
         self.totalIBU = 0
         for hop in self.hops:
-            hop.calcUse(self.hopFormulaName, self.boilOG)
             self.totalIBU += hop.calcIBU(self.hopFormulaName, totalSize, 
-                                         self.batchSize, self.calcOG)
+                                         self.boilSize, self.calcOG)
 
         if self.calcOG > 1. and self.totalIBU > 0:
             self.BUGU = round(self.totalIBU / (1000. * (self.calcOG - 1.)), 2)
@@ -345,7 +340,7 @@ class Project(BrewFile):
             self.actualCal = 0.
 
     #----------------------------------------------------------------------
-    def calcCalories(self, ABW, OG, FG): #TODO Move to methods
+    def calcCalories(self, ABW, OG, FG):
         """ Calculate the calories in a 16 oz serving """
         return (((6.9*ABW+4.*((0.1808*(668.72*OG-463.37-205.25*OG**2.) +
                      0.8192*(668.72*FG-463.37-205.25*FG**2.)) - 0.1)) *
@@ -370,7 +365,8 @@ class Project(BrewFile):
                 self.yeast == other.yeast and
                 self.style == other.style and
                 self.fermentables == other.fermentables and
-                self.hops == other.hops)
+                self.hops == other.hops and
+                self.hopFormulaName == other.hopFormulaName)
 
     #----------------------------------------------------------------------
     def __ne__(self, other):

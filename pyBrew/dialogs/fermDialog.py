@@ -99,6 +99,7 @@ class AddFermDialog(wx.Dialog):
         vBox.Fit(self)
         
         self.Bind(wx.EVT_COMBOBOX, self.UpdateSelection, self.fermSelect)
+        self.UpdateSelection()
 
     #----------------------------------------------------------------------
     def GetNewItem(self):
@@ -111,7 +112,7 @@ class AddFermDialog(wx.Dialog):
             pyBrew.BrewObjects.Quantity(fermAmt,self.fermAmountUnit.GetValue()))
 
     #----------------------------------------------------------------------
-    def UpdateSelection(self, event):
+    def UpdateSelection(self, event=None):
         self.potential.SetLabel('Potential Gravity: %4.3f' % 
             pyBrew.Databases.FermDb.Potential(self.fermSelect.GetValue()))
         self.efficiency.SetLabel('Efficiency: %3.0f %%' % 

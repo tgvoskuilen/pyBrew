@@ -53,7 +53,8 @@ class Fermentable(object):
         return [str(self.amount.Value())+'  '+self.amount.UnitShort(),
                 '%4.3f' % self.potential,
                 '%4.3f' % self.gravity,
-                '%3.0f' % self.percent,
+                ('%2.0f' % self.percent) if self.percent >= 10. \
+                                       else ('%3.1f' % self.percent),
                 '%2.0f' % self.color]
         
     #-------------------------------------------------------------------------
@@ -75,7 +76,7 @@ class Fermentable(object):
     def calcPercent(self, OG):
         """ Calculate the percent of the gravity from this fermentable """
         if OG > 1.:
-            self.percent = round( (self.gravity - 1.)*100. / (OG - 1.) )
+            self.percent = round( (self.gravity - 1.)*100. / (OG - 1.), 1 )
         else:
             self.percent = 0
 

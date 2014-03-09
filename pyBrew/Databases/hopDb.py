@@ -40,9 +40,6 @@ class HopDb(object):
         
     Names = sorted(hopDict.keys(), key=str.lower)
     
-    FormulaNames = ['Tinseth','Rager','Daniels','Garetz']
-    Forms = ['Pellets', 'Whole']
-    
         
     #----------------------------------------------------------------------
     @classmethod

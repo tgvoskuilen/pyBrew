@@ -58,7 +58,10 @@ class MainFrame(wx.Frame):
         #Calculator Menu
         self.mRefractCalc = self.calculatorMenu.Append(-1, '&Refractometer FG',
                       'Calculate FG from a refractometer')
-
+                      
+        self.mKegCalc = self.calculatorMenu.Append(-1, '&Kegging Calculator',
+                      'Calculate pressures and line lengths for kegs')
+                      
         #File Menu
         self.mSave = self.fileMenu.Append(-1, '&Save All',
                                           'Save changes to project')
@@ -97,6 +100,7 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.ShutDown, self.mQuit)
         self.Bind(wx.EVT_MENU, self.ShowAbout, self.mAbout)
         self.Bind(wx.EVT_MENU, self.RefractCalc, self.mRefractCalc)
+        self.Bind(wx.EVT_MENU, self.KegCalc, self.mKegCalc)
         self.Bind(wx.EVT_MENU,
             lambda evt, act='New': self.ModifyItems(evt,act,'Project'),
             self.mNewP)
@@ -116,16 +120,26 @@ class MainFrame(wx.Frame):
         dialogs.FGCalculatorDialog(self).ShowModal()
     
     #----------------------------------------------------------------------
-    def ShowAbout(self, event):
-        dlg = GMD.GenericMessageDialog(self, 
-            "This is pyBrew Version 1.0\n\n"+
-            "Created by Tyler Voskuilen\n\n"+
-            "Copyright (c) 2012", 
-            "About pyBrew", 
-            wx.ICON_INFORMATION|wx.CANCEL)
-        dlg.ShowModal()
-        dlg.Destroy()
+    def KegCalc(self, event):
+        dialogs.KegCalculatorDialog(self).ShowModal()
         
+    #----------------------------------------------------------------------
+    def ShowAbout(self, event):
+        description = """pyBrew lets you customize your home brew."""
+
+        info = wx.AboutDialogInfo()
+
+        info.SetIcon(wx.Icon('pyBrew/icons/beer.png', wx.BITMAP_TYPE_PNG))
+        info.SetName('pyBrew')
+        info.SetVersion('1.0')
+        info.SetDescription(description)
+        info.SetCopyright('(C) 2014 Tyler Voskuilen')
+        info.SetWebSite('http://www.github.com/tgvoskuilen/pyBrew')
+        #info.SetLicence(license)
+        #info.AddDeveloper('Tyler Voskuilen')
+        #info.AddDocWriter('Tyler Voskuilen')
+
+        wx.AboutBox(info)
  
     #----------------------------------------------------------------------
     def ModifyItems(self, event, action='New', type='Project'):
@@ -266,7 +280,7 @@ class MyLabelBook(LB.LabelBook):
         self._pages.SetTabAreaWidth(width)
         self._pages.SetSizeHints(width, -1)
         self._pages.SetColour(LB.INB_TAB_AREA_BACKGROUND_COLOUR,
-                              wx.Color(255,255,255))
+                              wx.Colour(255,255,255))
         
     #----------------------------------------------------------------------
     def LoadActivePanel(self, event=None):
@@ -323,7 +337,8 @@ class MyNotebook(fnb.FlatNotebook): #wx.Notebook):
     def __init__(self, parent):
         fnb.FNB_HEIGHT_SPACER = 20
         fnb.FlatNotebook.__init__(self, parent, id=wx.ID_ANY,
-             agwStyle=fnb.FNB_NO_X_BUTTON|fnb.FNB_NO_NAV_BUTTONS|fnb.FNB_NODRAG|fnb.FNB_FF2)
+             agwStyle=fnb.FNB_NO_X_BUTTON|fnb.FNB_NO_NAV_BUTTONS|
+                      fnb.FNB_NODRAG|fnb.FNB_FF2)
                                   
         bgcolor = wx.Colour(240,240,240)
         self.SetTabAreaColour(bgcolor) 
