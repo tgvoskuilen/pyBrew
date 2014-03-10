@@ -1,5 +1,5 @@
 """
-Copyright (c) 2012, Tyler Voskuilen
+Copyright (c) 2014, Tyler Voskuilen
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -125,7 +125,7 @@ class MainFrame(wx.Frame):
         
     #----------------------------------------------------------------------
     def ShowAbout(self, event):
-        description = """pyBrew lets you customize your home brew."""
+        description = """pyBrew is an open source alternative to BeerSmith for extract brewers."""
 
         info = wx.AboutDialogInfo()
 
@@ -135,9 +135,6 @@ class MainFrame(wx.Frame):
         info.SetDescription(description)
         info.SetCopyright('(C) 2014 Tyler Voskuilen')
         info.SetWebSite('http://www.github.com/tgvoskuilen/pyBrew')
-        #info.SetLicence(license)
-        #info.AddDeveloper('Tyler Voskuilen')
-        #info.AddDocWriter('Tyler Voskuilen')
 
         wx.AboutBox(info)
  

@@ -133,7 +133,7 @@ class KegCalculatorDialog(wx.Dialog):
     def __init__(self, parent):
         
         wx.Dialog.__init__(self, parent, wx.ID_ANY,
-                           title='Kegging Calculator', size=(650,400))
+                           title='Kegging Calculator', size=(-1,-1))
 
         
         calcColor = (200,200,200)
@@ -146,8 +146,7 @@ class KegCalculatorDialog(wx.Dialog):
                 (
                     os.path.join('pyBrew','icons','diagram.png'), 
                     wx.BITMAP_TYPE_ANY
-                ),
-                pos=(0,10)
+                )
             )
 
 
@@ -155,54 +154,105 @@ class KegCalculatorDialog(wx.Dialog):
         self.pressure = wx.TextCtrl(self, wx.ID_ANY, style=wx.TE_READONLY|wx.TE_CENTER, 
                                     value='', pos=(140,180),size=(90,-1))
             
-            
-        self.temperature = wx.TextCtrl(self, wx.ID_ANY, style=wx.TE_CENTER, value='40', 
-                                    pos=(255,300),size=(90,-1))
-        self.co2volumes = wx.TextCtrl(self, wx.ID_ANY, style=wx.TE_CENTER, value='2', 
-                                    pos=(255,350),size=(90,-1))
-                                    
         self.lineLength = wx.TextCtrl(self, wx.ID_ANY, style=wx.TE_READONLY|wx.TE_CENTER, 
-                                    value='', pos=(360,90),size=(70,-1))
+                                    value='', pos=(380,90),size=(70,-1))
+                                    
+                                    
+        self.temperature = wx.TextCtrl(self, wx.ID_ANY, style=wx.TE_CENTER, value='40', 
+                                    size=(90,-1))
+        self.co2volumes = wx.TextCtrl(self, wx.ID_ANY, style=wx.TE_CENTER, value='2', 
+                                    size=(90,-1))
+                                    
+        
         self.lineID = wx.TextCtrl(self, wx.ID_ANY, style=wx.TE_CENTER, value='3/16', 
-                                    pos=(360,140),size=(70,-1))
+                                    size=(70,-1))
         self.faucetH = wx.TextCtrl(self, wx.ID_ANY, style=wx.TE_CENTER, value='1.5', 
-                                    pos=(360,190),size=(70,-1))
+                                    size=(70,-1))
                                     
                                     
         self.faucetP = wx.TextCtrl(self, wx.ID_ANY, style=wx.TE_CENTER, value='2', 
-                                    pos=(500,230),size=(60,-1))                   
+                                    size=(60,-1))                   
         self.fillTime = wx.TextCtrl(self, wx.ID_ANY, style=wx.TE_CENTER, value='10', 
-                                    pos=(500,280),size=(60,-1))
+                                    size=(60,-1))
 
-        unitBox = wx.StaticBox(self, -1, 'Select Units:',size=(110,80),pos=(10,310))
+        self.unitBox = wx.StaticBox(self, -1, 'Select Units:',size=(110,80),pos=(10,310))
 
         self.selectEng = wx.RadioButton(self, -1, 'English',pos=(20,330), style=wx.RB_GROUP)
         self.selectMetric = wx.RadioButton(self, -1, 'Metric',pos=(20,360))
         
         
-        self.exitButton = wx.Button(self, wx.ID_CANCEL, 'Exit', pos=(550,360), size=(95,35))
+        self.exitButton = wx.Button(self, wx.ID_CANCEL, 'Exit', pos=(550,400), size=(95,35))
         self.lineLength.SetBackgroundColour(calcColor)
         self.pressure.SetBackgroundColour(calcColor)
 
 
         #Make Labels
-        wx.StaticText(self, -1, label='Set Pressure', size=(100,-1), pos=(140,160))
+        wx.StaticText(self, -1, label='Set Pressure', size=(-1,-1), pos=(140,160))
+        wx.StaticText(self, -1, label='Line Length', size=(100,-1), pos=(380,70))
         
-        self.IDlabel = wx.StaticText(self, -1, label='Line ID (in)', size=(100,-1), pos=(360,120))
-        wx.StaticText(self, -1, label='Line Length', size=(100,-1), pos=(360,70))
         
-        self.faucetHLabel = wx.StaticText(self, -1, label='Faucet Height (ft)', size=(120,-1), pos=(360,170))
+        self.IDlabel = wx.StaticText(self, -1, label='Line ID (in)', size=(-1,-1))
+        
+        
+        self.faucetHLabel = wx.StaticText(self, -1, label='Faucet Height (ft)', size=(-1,-1))
      
-        self.faucetPLabel = wx.StaticText(self, -1, label='Faucet Loss (psi)', size=(120,-1), pos=(500,210))
+        self.faucetPLabel = wx.StaticText(self, -1, label='Faucet Loss (psi)', size=(-1,-1))
 
-        wx.StaticText(self, -1, label='Pint Fill Time (s)', size=(120,-1), pos=(500,260))
+        fillTimeLabel = wx.StaticText(self, -1, label='Pint Fill Time (s)', size=(-1,-1))
 
         
-        self.TLabel = wx.StaticText(self, -1, label='Temperature (F)', size=(150,-1), pos=(255,280))
-        wx.StaticText(self, -1, label='Volumes of CO2', size=(150,-1), pos=(255,330))
+        self.TLabel = wx.StaticText(self, -1, label='Temperature (F)', size=(-1,-1))
+        co2volLabel = wx.StaticText(self, -1, label='Volumes of CO2', size=(-1,-1))
 
-        #Layout items
-
+        # Layout items
+        vBox1 = wx.BoxSizer(wx.VERTICAL)
+        vBox2 = wx.BoxSizer(wx.VERTICAL)
+        vBox3 = wx.BoxSizer(wx.VERTICAL)
+        vBox4 = wx.BoxSizer(wx.VERTICAL)
+        vBox5 = wx.BoxSizer(wx.VERTICAL)
+        hBox1 = wx.BoxSizer(wx.HORIZONTAL)
+        hBox2 = wx.BoxSizer(wx.HORIZONTAL)
+        hBox3 = wx.BoxSizer(wx.HORIZONTAL)
+        
+        
+        vBox3.Add(self.TLabel,0,wx.LEFT|wx.RIGHT,2)
+        vBox3.Add(self.temperature,0,wx.LEFT|wx.RIGHT|wx.EXPAND,2)
+        vBox3.Add(co2volLabel,0,wx.LEFT|wx.RIGHT|wx.TOP,2)
+        vBox3.Add(self.co2volumes,0,wx.LEFT|wx.RIGHT|wx.EXPAND,2)
+        
+        vBox4.Add(self.IDlabel,0,wx.LEFT|wx.RIGHT,2)
+        vBox4.Add(self.lineID,0,wx.LEFT|wx.RIGHT|wx.EXPAND,2)
+        vBox4.Add(self.faucetHLabel,0,wx.LEFT|wx.RIGHT|wx.TOP,2)
+        vBox4.Add(self.faucetH,0,wx.LEFT|wx.RIGHT|wx.EXPAND,2)
+        
+        vBox5.Add(self.faucetPLabel,0,wx.LEFT|wx.RIGHT,2)
+        vBox5.Add(self.faucetP,0,wx.LEFT|wx.RIGHT|wx.EXPAND,2)
+        vBox5.Add(fillTimeLabel,0,wx.LEFT|wx.RIGHT|wx.TOP,2)
+        vBox5.Add(self.fillTime,0,wx.LEFT|wx.RIGHT|wx.EXPAND,2)
+        
+        hBox2.Add(vBox3,1,wx.ALL|wx.EXPAND,5)
+        hBox2.Add(vBox4,1,wx.ALL|wx.EXPAND,5)
+        hBox2.Add(vBox5,1,wx.ALL|wx.EXPAND,5)
+        
+        hBox3.Add(self.exitButton,1,wx.ALL|wx.ALIGN_RIGHT,5)
+        
+        vBox2.Add(hBox2,1,wx.ALL|wx.EXPAND,5)
+        vBox2.Add(hBox3,0,wx.ALL|wx.EXPAND,5)
+        
+        boxsizer = wx.StaticBoxSizer(self.unitBox, wx.VERTICAL)
+        boxsizer.Add(self.selectEng, 0, wx.ALL|wx.EXPAND, 5)
+        boxsizer.Add(self.selectMetric,0,wx.ALL|wx.EXPAND,5)
+        
+        hBox1.Add(boxsizer,0,wx.ALL|wx.ALIGN_BOTTOM,5)
+        hBox1.Add(vBox2,1,wx.ALL|wx.EXPAND,5)
+        
+        vBox1.Add(self.co2tank, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5)
+        vBox1.Add(hBox1, 1, wx.ALL|wx.EXPAND, 5)
+        
+        self.SetSizer(vBox1)
+        vBox1.Fit(self)
+        
+        # Bind changes to update calculations
         self.Bind(wx.EVT_TEXT, self.UpdateValues,  self.temperature)
         self.Bind(wx.EVT_TEXT, self.UpdateValues,  self.co2volumes)
         self.Bind(wx.EVT_TEXT, self.UpdateValues,  self.lineID)
