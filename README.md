@@ -27,7 +27,7 @@ Run the <code>runPyBrew.py</code> script to open the program.
 
 ### Windows 7
 
-First install python 2.7 for [Windows](http://www.python.org/getit/), 
+First install python 2.7 for [Windows](http://www.python.org/download/), 
 then install wxPython 2.8 with the appropriate
 [Windows binary](http://www.wxpython.org/download.php)
 
