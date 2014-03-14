@@ -24,13 +24,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import csv
+import os
 from pyBrew.pyBrewMethods import GetFloat
 
 ###############################################################################
 class StyleDb(object):
     styleDict = {}
+    dbPath = os.path.join(os.getcwd(),'data','styles.csv')
+    
     try:
-        dbFile = csv.reader(open('pyBrew/Databases/styles.csv', 'r'))
+        dbFile = csv.reader(open(dbPath, 'r'))
         dbFile.next() #Skip header row
         for name, cat, OGL, OGH, FGL, FGH, ABVL, \
             ABVH, IBUL, IBUH, SRML, SRMH, source in dbFile:
@@ -43,7 +46,7 @@ class StyleDb(object):
                                'Source': source}
             
     except (IOError, ValueError):
-        print "ERROR: Unable to load styles database"
+        raise IOError("Unable to load styles database at %s" % dbPath)
 
 
     #Use styleDict to get name lists and IDs

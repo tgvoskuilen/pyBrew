@@ -100,6 +100,8 @@ class FGCalculatorDialog(wx.Dialog):
         newFG = GetFloat(self.measFG.GetValue())
 
         #Methods from seanterrill.com, use the mean of the two methods
+        # http://seanterrill.com/2011/04/07/refractometer-fg-results/
+        
         factor = 1.040 #wort correction factor
         calcFG = []
 
@@ -107,9 +109,12 @@ class FGCalculatorDialog(wx.Dialog):
             #Method 1 - SeanTerrill New Linear
             BrixO = SGToBrix(newOG)
             BrixF = SGToBrix(newFG)
+            
+
+            
             FG = 1.0 - 0.00085683*(BrixO/factor) + 0.0034941*(BrixF/factor)
             calcFG.append(FG)
-
+    
             #Method 2 - SeanTerrill New Cubic
             FG = (1.0 - 0.0044993*(BrixO/factor)
                       + 0.011774*(BrixF/factor)
@@ -118,7 +123,18 @@ class FGCalculatorDialog(wx.Dialog):
                       - 0.0000072800*(BrixO/factor)**3
                       + 0.000063293*(BrixF/factor)**3)
             calcFG.append(FG)
-
+            
+            
+            # More standard method from http://primetab.com/formulas.html
+            """
+            FG = (1.001843 - 0.002318474*BrixO
+                           - 0.000007775*BrixO**2
+                           - 0.000000034*BrixO**3
+                           + 0.00574*BrixF
+                           + 0.00003344*BrixF**2
+                           + 0.000000086*BrixF**3)
+            calcFG.append(FG)
+            """
             calcFGs = NumString(Mean(calcFG),'Gravity')
         else:
             calcFGs = ''
@@ -135,6 +151,7 @@ class KegCalculatorDialog(wx.Dialog):
         wx.Dialog.__init__(self, parent, wx.ID_ANY,
                            title='Kegging Calculator', size=(-1,-1))
 
+        self.SetBackgroundColour((255,255,255))
         
         calcColor = (200,200,200)
 
@@ -144,7 +161,7 @@ class KegCalculatorDialog(wx.Dialog):
                 wx.ID_ANY, 
                 wx.Bitmap\
                 (
-                    os.path.join('pyBrew','icons','diagram.png'), 
+                    os.path.join(os.getcwd(),'icons','diagram.png'), 
                     wx.BITMAP_TYPE_ANY
                 )
             )

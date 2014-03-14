@@ -44,10 +44,12 @@ from pyBrew.range import Range
 class Project(BrewFile):
     """
     Contains the essential and calculated data for each project
+    
+    'path' input here can be either full path to file, or just file name
     """
     #----------------------------------------------------------------------
-    def __init__(self, path, is_new=False):
-        BrewFile.__init__(self,path,'proj',is_new)
+    def __init__(self, path):
+        BrewFile.__init__(self, path, 'proj')
 
         self.otherIngredients = []        
         self.fermentables = []

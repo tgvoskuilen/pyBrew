@@ -167,7 +167,8 @@ class Hop(object):
         Correction for boiling temperature changes due to elevation
         """
         return 1./(1. + elev/27500.)
-                    
+
+        
     #----------------------------------------------------------------------
     @classmethod
     def Fhr(cls, args, IBU):
@@ -176,9 +177,7 @@ class Hop(object):
         """
         return 1. / (1. + args['Vtot']/args['Vboil']*IBU/260.)
         
-        
-    
-    
+
     """ Class to describe hops and their properties """
     #-------------------------------------------------------------------------
     def __init__(self, name, quantity, boiltime, aau, form):

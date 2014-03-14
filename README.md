@@ -12,6 +12,15 @@ looks.
 Installation
 --------------------------------------------
 
+### Windows (Vista, 7, 8)
+
+The easiest way to install pyBrew is to download the Windows installer from
+the `installers` folder. If you prefer to run the Python source directly, you
+will need to download Python 2.7 for [Windows](http://www.python.org/getit/), 
+then install wxPython 2.8 with the appropriate
+[Windows binary](http://www.wxpython.org/download.php). Once you do so, you can
+simply double click on the <code>pyBrew.py</code> script to run the program.
+
 ### Ubuntu
 
 Make sure python 2.7.x is installed (type <code>python --version</code> 
@@ -23,23 +32,12 @@ Clone this repo to a folder on your computer with
 
     git clone git://github.com/tgvoskuilen/pyBrew.git
     
-Run the <code>runPyBrew.py</code> script to open the program.
+Run the <code>pyBrew.py</code> script to open the program.
 
-### Windows 7
-
-First install python 2.7 for [Windows](http://www.python.org/getit/), 
-then install wxPython 2.8 with the appropriate
-[Windows binary](http://www.wxpython.org/download.php)
-
-Then download the source files for 
-[pyBrew](http://www.github.com/tgvoskuilen/pyBrew/archive/master.zip) and
-unzip them to a folder anywhere on your computer. Double click on 
-<code>runPyBrew.py</code> to start the program.
 
 ### Mac OSX and Others
 
-Follow the instructions for Windows 7, but choose the Mac installers instead.
-I have not tested this.
+Untested.
 
 
 Usage Guide

@@ -24,19 +24,22 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import csv
+import os
 from pyBrew.pyBrewMethods import GetFloat
 
 ###############################################################################
 class HopDb(object):
     hopDict = {}
+    dbPath = os.path.join(os.getcwd(),'data','hops.csv')
+    
     try:
-        dbFile = csv.reader(open('pyBrew/Databases/hops.csv', 'r'))
+        dbFile = csv.reader(open(dbPath, 'r'))
         dbFile.next() #Skip header row
         for name, aau in dbFile:
             hopDict[name] = {'AAU': GetFloat(aau)}
             
     except (IOError, ValueError):
-        print "ERROR: Unable to load hops database"
+        raise IOError("Unable to load hops database at %s" % dbPath)
         
     Names = sorted(hopDict.keys(), key=str.lower)
     

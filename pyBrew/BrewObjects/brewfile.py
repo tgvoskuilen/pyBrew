@@ -39,36 +39,44 @@ class BrewFile(object):
     """
     This class manages files for both projects and recipes. Both project
     and recipe are derived from this class.
+    
+    What is path?
+      - The full path to an existing data file
+      - Partial path to a proposed data file (dataFolder/filename) with no
+        extension. What if the user types the extension??
     """
     #----------------------------------------------------------------------
-    def __init__(self, path, ext, is_new):
+    def __init__(self, path, ext):
         
         self.ext = ext
         self.hasChanged = False
         
         
         if self.FileExists(path):
+            # If path was the full path to the file, just use directly
             self.path = path
-            self.name = ''
+            self.name = '' #Using no name triggers read in Project and Recipe
         else:
-            self.path = os.path.join(os.getcwd(),'UserData',path+'.'+ext)
-            self.name = path
+            # Input is a new project, make sure there are no name conflicts
             
-            if is_new and os.path.isfile(self.path):
+            self.path = path+'.'+ext
+            
+            if os.path.isfile(self.path):
                 i = 1
                 while i < 100:
-                    newpath = path+' ('+str(i)+')'
-                    test = os.path.join(os.getcwd(),'UserData',newpath+'.'+ext)
-                    if not os.path.isfile(test):
-                        self.path = test
-                        self.name = newpath
+                    newpath = path+' ('+str(i)+').'+ext
+                    if not os.path.isfile(newpath):
+                        self.path = newpath
                         break
                     i += 1
+                    
+            self.name = os.path.split(path)[1]
         
     
     #----------------------------------------------------------------------   
     def FileExists(self,path):
         return os.path.isfile(path) and path.endswith('.'+self.ext)
+        
         
     #----------------------------------------------------------------------   
     def Save(self):

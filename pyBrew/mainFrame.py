@@ -25,7 +25,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import copy
 import wx
-import pickle
+import pickle # needed?
+import os
+import time
 import wx.lib.agw.labelbook as LB
 import wx.lib.agw.flatnotebook as fnb
 
@@ -45,7 +47,12 @@ class MainFrame(wx.Frame):
         wx.Frame.__init__(self, None, -1, "pyBrew", size=(820,650))
         
         #Get a data object, contained by this Frame
-        self.data = BrewObjects.Data()
+        try:
+            self.data = BrewObjects.Data()
+        except:
+            print "Pausing 5 seconds to show error messages"
+            time.sleep(5)
+            raise
         
         #Create Menu bar and menus
         self.topMenu = wx.MenuBar()
@@ -129,7 +136,7 @@ class MainFrame(wx.Frame):
 
         info = wx.AboutDialogInfo()
 
-        info.SetIcon(wx.Icon('pyBrew/icons/beer.png', wx.BITMAP_TYPE_PNG))
+        info.SetIcon(wx.Icon(os.path.join(os.getcwd(),'icons','beer.png'), wx.BITMAP_TYPE_PNG))
         info.SetName('pyBrew')
         info.SetVersion('1.0')
         info.SetDescription(description)
@@ -145,11 +152,14 @@ class MainFrame(wx.Frame):
         if ans == wx.ID_OK:
             if action == 'New':
                 if type == 'Project':
-                    self.data.projects.append(
-                        BrewObjects.Project(dlg.text.GetValue(),True))
+                    #self.data.projects.append(
+                    #    BrewObjects.Project(dlg.text.GetValue(),True))
+                    self.data.AddProject(dlg.text.GetValue())
                 else:
-                    self.data.recipes.append(
-                        BrewObjects.Recipe(dlg.text.GetValue(),True))
+                    self.data.AddRecipe(dlg.text.GetValue())
+                    
+                    #self.data.recipes.append(
+                    #    BrewObjects.Recipe(dlg.text.GetValue(),True))
                 self.data.Save()
                         
             elif action == 'Delete':
@@ -270,7 +280,7 @@ class MyLabelBook(LB.LabelBook):
         # Add pages and associate with icons
         for imID, (page, label, imName) in enumerate(pages):
             self.AddPage(page, label, imageId=imID)
-            imList.Add(wx.Bitmap('pyBrew/icons/' + imName))
+            imList.Add(wx.Bitmap(os.path.join(os.getcwd(),'icons',imName)))
         self.AssignImageList(imList)
         
         # Force a constant tab area width and set the color

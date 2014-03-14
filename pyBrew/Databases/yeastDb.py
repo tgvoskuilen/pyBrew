@@ -24,14 +24,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import csv
+import os
 from pyBrew.pyBrewMethods import GetFloat
 from pyBrew.range import Range
 
 ###############################################################################
 class YeastDb(object):
     yeastDict = {}
+    dbPath = os.path.join(os.getcwd(),'data','yeasts.csv')
+    
     try:
-        dbFile = csv.reader(open('pyBrew/Databases/yeasts.csv', 'r'))
+        dbFile = csv.reader(open(dbPath, 'r'))
         dbFile.next() #Skip header row
         for name, attenL, attenH, floc, tempL, tempH, desc in dbFile:
             yeastDict[name] = {'Attenuation': (GetFloat(attenL, -1),
@@ -41,7 +44,7 @@ class YeastDb(object):
                                'Description': desc,
                                'Flocculation': floc}
     except (IOError, ValueError):
-        print "ERROR: Unable to load yeasts database"
+        raise IOError("Unable to load yeast database at %s" % dbPath)
         
 
     Names = sorted(yeastDict.keys(), key=str.lower)

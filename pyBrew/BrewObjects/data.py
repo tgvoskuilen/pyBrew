@@ -35,12 +35,19 @@ class Data(object):
     #----------------------------------------------------------------------
     def __init__(self):
         """
-        Look in 'UserData' and get all project and recipe files. Initialize
+        Look in data folder and get all project and recipe files. Initialize
         all projects and recipes from these files. Since there must always
         be at least one of each, if none are found, make a new one.
         """
-        datapath = os.path.join(os.getcwd(), 'UserData')
-        items = os.listdir(datapath)
+        
+        # TODO: Allow user to change default data folder location 
+        # (to put on dropbox or elsewhere)
+        self.folder = os.path.join(os.path.expanduser('~'),'pyBrew')
+        
+        if not os.path.isdir(self.folder):
+            os.mkdir(self.folder)
+            
+        items = os.listdir(self.folder)
         
         projfiles = [f for f in items if f.endswith('.proj')]
         recipefiles = [f for f in items if f.endswith('.recip')]
@@ -50,16 +57,28 @@ class Data(object):
         
         if projfiles:
             for proj in projfiles:
-                self.projects.append( Project(os.path.join(datapath, proj)) )
+                self.projects.append( Project(os.path.join(self.folder, proj)) )
         else:
-            self.projects.append( Project('New Project') )
+            # TODO: Can we make this requirement go away?
+            self.projects.append( Project(os.path.join(self.folder,'New Project')) )
             
         if recipefiles:
             for recipe in recipefiles:
-                self.recipes.append( Recipe(os.path.join(datapath, recipe)) )
+                self.recipes.append( Recipe(os.path.join(self.folder, recipe)) )
         else:
-            self.recipes.append( Recipe('New Recipe') )
+            # TODO: Can we make this requirement go away?
+            self.recipes.append( Recipe(os.path.join(self.folder,'New Recipe')) )
             
+    #----------------------------------------------------------------------   
+    def AddProject(self,projectName):
+        """ Add a new project """
+        self.projects.append( Project(os.path.join(self.folder, projectName), True) )
+        
+    #----------------------------------------------------------------------   
+    def AddRecipe(self,recipeName):
+        """ Add a new recipe """
+        self.recipes.append( Recipe(os.path.join(self.folder, recipeName), True) )
+          
     #----------------------------------------------------------------------
     def getProjectNames(self):
         """ Get a list of all project names """
