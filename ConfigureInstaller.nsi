@@ -52,7 +52,7 @@ SectionEnd
 Section "Start Menu Shortcuts"
 
   CreateDirectory "$SMPROGRAMS\pyBrew"
-  CreateShortCut "$SMPROGRAMS\pyBrew\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
+  CreateShortCut "$SMPROGRAMS\pyBrew\Uninstall.lnk" "$INSTDIR\uninstall-pyBrew.exe" "" "$INSTDIR\uninstall-pyBrew.exe" 0
   CreateShortCut "$SMPROGRAMS\pyBrew\pyBrew.lnk" "$INSTDIR\pyBrew.exe" "" "$INSTDIR\pyBrew.exe" 0
   
 SectionEnd
