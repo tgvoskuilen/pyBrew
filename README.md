@@ -15,7 +15,8 @@ Installation
 ### Windows (Vista, 7, 8)
 
 The easiest way to install pyBrew is to download the Windows installer from
-the `installers` folder. If you prefer to run the Python source directly, you
+the the [latest release](https://github.com/tgvoskuilen/pyBrew/releases). 
+If you prefer to run the Python source directly, you
 will need to download Python 2.7 for [Windows](http://www.python.org/getit/), 
 then install wxPython 2.8 with the appropriate
 [Windows binary](http://www.wxpython.org/download.php). Once you do so, you can
