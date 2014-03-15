@@ -46,43 +46,44 @@ class BrewFile(object):
         extension. What if the user types the extension??
     """
     #----------------------------------------------------------------------
-    def __init__(self, path, ext):
+    def __init__(self, folder, ext, name=None, filename=None):
         
         self.ext = ext
         self.hasChanged = False
         
+        if filename is not None:
+            self.path = os.path.join(folder, filename)
+            self.ReadFile() # defined in inherited class
+            
+        elif name is not None:
+            self.name = name
+            self.path = os.path.join(folder, self.CleanName()+'.'+ext)
         
-        if self.FileExists(path):
-            # If path was the full path to the file, just use directly
-            self.path = path
-            self.name = '' #Using no name triggers read in Project and Recipe
-        else:
+
             # Input is a new project, make sure there are no name conflicts
             
-            self.path = path+'.'+ext
+            self.name = name
+            self.path = os.path.join(folder,self.CleanName()+'.'+ext)
             
             if os.path.isfile(self.path):
                 i = 1
                 while i < 100:
-                    newpath = path+' ('+str(i)+').'+ext
+                    newpath = os.path.join(folder, 
+                                    self.CleanName()+' ('+str(i)+').'+ext)
                     if not os.path.isfile(newpath):
                         self.path = newpath
+                        self.name += ' ('+str(i)+')'
                         break
                     i += 1
                     
-            self.name = os.path.split(path)[1]
-        
-    
-    #----------------------------------------------------------------------   
-    def FileExists(self,path):
-        return os.path.isfile(path) and path.endswith('.'+self.ext)
-        
+            self.WriteFile() # defined in inherited class
+
         
     #----------------------------------------------------------------------   
     def Save(self):
         if self.hasChanged:
             basename = os.path.split(self.path)[1]
-            if basename.split('.'+self.ext)[0] != self.name:
+            if basename.split('.'+self.ext)[0] != self.CleanName():
                 self.RenameFile()
                 
             self.WriteFile()
@@ -93,6 +94,15 @@ class BrewFile(object):
     def DeleteFile(self):
         if os.path.isfile(self.path):
             os.remove(self.path)
+    #----------------------------------------------------------------------    
+    def CleanName(self):
+        illegalChars = """:\/?*><"|#"""
+        name = self.name
+        
+        for i in illegalChars:
+            name = name.replace(i,'_')
+            
+        return name
             
     #----------------------------------------------------------------------     
     def RenameFile(self):
@@ -100,7 +110,7 @@ class BrewFile(object):
         Rename the file to match its name
         """
         parts = os.path.split(self.path)
-        newname = os.path.join(parts[0],self.name+'.'+self.ext)
+        newname = os.path.join(parts[0],self.CleanName()+'.'+self.ext)
         if not os.path.isfile(newname):
             os.rename(self.path, newname)
             self.path = newname
@@ -108,7 +118,8 @@ class BrewFile(object):
         else:
             i = 1
             while i < 100:
-                newname = os.path.join(parts[0],self.name+' ('+str(i)+').'+self.ext)
+                newname = os.path.join(parts[0],
+                    self.CleanName()+' ('+str(i)+').'+self.ext)
                 if not os.path.isfile(newname):
                     os.rename(self.path, newname)
                     self.path = newname
@@ -134,7 +145,7 @@ class BrewFile(object):
     def CheckName(self):
         #If title and filename do not match, change filename
         basename = os.path.split(self.path)[1]
-        if basename.split('.'+self.ext)[0] != self.name:
+        if basename.split('.'+self.ext)[0] != self.CleanName():
             self.RenameFile()
             
             

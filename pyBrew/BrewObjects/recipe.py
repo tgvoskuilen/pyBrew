@@ -41,8 +41,8 @@ class Recipe(BrewFile):
     This class contains the data saved for each recipe.
     """
     #----------------------------------------------------------------------
-    def __init__(self, path):
-        BrewFile.__init__(self, path, 'recip')
+    def __init__(self, folder, name=None, filename=None):
+        
         
         self.fermentables = []
         self.hops = []
@@ -53,12 +53,8 @@ class Recipe(BrewFile):
         self.description = 'Add a description'
         self.instructions = 'Add instructions'
         
-        if not self.name:
-            # Read recipe from existing file
-            self.ReadFile()
-            
-        else:
-            self.WriteFile()
+        BrewFile.__init__(self, folder, 'recip', name, filename)
+        
 
             
             

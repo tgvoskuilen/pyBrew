@@ -48,8 +48,8 @@ class Project(BrewFile):
     'path' input here can be either full path to file, or just file name
     """
     #----------------------------------------------------------------------
-    def __init__(self, path):
-        BrewFile.__init__(self, path, 'proj')
+    def __init__(self, folder, name=None, filename=None):
+        #BrewFile.__init__(self, folder, 'proj', name, filename)
 
         self.otherIngredients = []        
         self.fermentables = []
@@ -67,16 +67,11 @@ class Project(BrewFile):
         self.notes = ''
         self.yeast = Yeast() #TODO: make this a list?
         self.hopFormulaName = 'Rager'
+        self.brewDate = date.today().strftime("%b %d, %Y")
         
+        BrewFile.__init__(self, folder, 'proj', name, filename)
         
-        if not self.name:
-            # Read project from existing file
-            self.ReadFile()
-            
-        else:
-            # Make new project
-            self.brewDate = date.today().strftime("%b %d, %Y")
-            self.WriteFile()
+
 
         #Calculated project data (not saved, calculated on load)
         self.calcOG = 1.

@@ -532,8 +532,6 @@ class Yeast(wx.Panel):
         self.calcFG     = wx.TextCtrl(self,-1,size=(100,-1),style=roStyle) 
         self.actualFG   = wx.TextCtrl(self,-1,size=(100,-1),style=wx.TE_CENTER) 
         self.styleFG    = wx.TextCtrl(self,-1,size=(100,-1),style=roStyle) 
-        self.yeastDesc  = wx.StaticText(self,-1,'',(550,-1))
-        self.yeastDesc.Wrap(550)
         
         self.styleAtten.SetBackgroundColour(styleColor)
         self.styleABV.SetBackgroundColour(styleColor)
@@ -550,9 +548,19 @@ class Yeast(wx.Panel):
         self.actualCal.SetBackgroundColour(calcColor)
         self.calcFG.SetBackgroundColour(calcColor)
         
-        yeastDescLabel = wx.StaticBox(self, -1, 'Description', size=(570,300))
-        boxsizer = wx.StaticBoxSizer(yeastDescLabel, wx.VERTICAL)
-        boxsizer.Add(self.yeastDesc, 1, wx.ALL|wx.EXPAND, 5)
+        
+        
+        yeastDescLabel = wx.StaticText(self, wx.ID_ANY, 'Description')
+        
+        #self.yeastDescSizer = wx.StaticBoxSizer(self.yeastDescLabel, wx.VERTICAL)
+        
+        self.yeastDesc  = wx.StaticText(self,wx.ID_ANY,'',(550,-1))
+        self.yeastDesc.Wrap(550)
+        
+        #self.yeastDescSizer.Add(self.yeastDesc, 1, wx.ALL|wx.EXPAND, 5)
+        
+        
+        
         predValLabel = wx.StaticText(self,-1,'Predicted Values')
         yeastTypeLabel = wx.StaticText(self,-1,'Yeast Type')
         wideLabSize = predValLabel.GetSize()
@@ -620,15 +628,20 @@ class Yeast(wx.Panel):
         hBoxes.append(wx.BoxSizer(wx.HORIZONTAL))
         hBoxes[-1].AddSpacer((-1,30))
         
+        #Yeast description label
+        hBoxes.append(wx.BoxSizer(wx.HORIZONTAL))
+        hBoxes[-1].Add(yeastDescLabel, 0, wx.LEFT|wx.TOP|wx.BOTTOM, 20)
+
         #Yeast description
         hBoxes.append(wx.BoxSizer(wx.HORIZONTAL))
-        hBoxes[-1].Add(boxsizer, 0, wx.ALL, 20)
-
+        hBoxes[-1].Add(self.yeastDesc, 0, wx.LEFT|wx.BOTTOM|wx.EXPAND, 30)
+        
         #Add all hBoxes to vBox
         for hBox in hBoxes:
             vBox.Add(hBox, proportion=0, flag=wx.EXPAND)
             
         self.SetSizer(vBox)
+
         
         self.Bind(wx.EVT_TEXT, self.updateActualFG,  self.actualFG)
         self.Bind(wx.EVT_COMBOBOX, self.updateYeastType, self.yeastType)
@@ -650,6 +663,7 @@ class Yeast(wx.Panel):
         self.yeastDesc.Wrap(550)
         self.project.CalcValues()
         self.UpdateCalcValues()
+        
         
     #----------------------------------------------------------------------
     def LoadData(self):

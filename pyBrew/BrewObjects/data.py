@@ -57,27 +57,27 @@ class Data(object):
         
         if projfiles:
             for proj in projfiles:
-                self.projects.append( Project(os.path.join(self.folder, proj)) )
+                self.projects.append( Project(folder=self.folder, filename=proj) )
         else:
             # TODO: Can we make this requirement go away?
-            self.projects.append( Project(os.path.join(self.folder,'New Project')) )
+            self.projects.append( Project(folder=self.folder, name='New Project') )
             
         if recipefiles:
             for recipe in recipefiles:
-                self.recipes.append( Recipe(os.path.join(self.folder, recipe)) )
+                self.recipes.append( Recipe(folder=self.folder, filename=recipe) )
         else:
             # TODO: Can we make this requirement go away?
-            self.recipes.append( Recipe(os.path.join(self.folder,'New Recipe')) )
+            self.recipes.append( Recipe(folder=self.folder, name='New Recipe') )
             
     #----------------------------------------------------------------------   
     def AddProject(self,projectName):
         """ Add a new project """
-        self.projects.append( Project(os.path.join(self.folder, projectName), True) )
+        self.projects.append( Project(folder=self.folder, name=projectName) )
         
     #----------------------------------------------------------------------   
     def AddRecipe(self,recipeName):
         """ Add a new recipe """
-        self.recipes.append( Recipe(os.path.join(self.folder, recipeName), True) )
+        self.recipes.append( Recipe(folder=self.folder, name=recipeName) )
           
     #----------------------------------------------------------------------
     def getProjectNames(self):

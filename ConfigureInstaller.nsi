@@ -11,8 +11,7 @@ Name "pyBrew"
 OutFile "pyBrewInstaller.exe"
 
 ; The default installation directory
-;InstallDir $PROGRAMFILES\pyBrew
-InstallDir $DESKTOP\pyBrew
+InstallDir $PROGRAMFILES\pyBrew
 
 ; Registry key to check for directory (so if you install again, it will 
 ; overwrite the old one automatically)

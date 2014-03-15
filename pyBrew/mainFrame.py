@@ -25,7 +25,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import copy
 import wx
-import pickle # needed?
 import os
 import time
 import wx.lib.agw.labelbook as LB
@@ -53,6 +52,12 @@ class MainFrame(wx.Frame):
             print "Pausing 5 seconds to show error messages"
             time.sleep(5)
             raise
+            
+        # Create icon
+        winIco = wx.Icon(os.path.join(os.getcwd(),'icons','pyBrew.ico'), 
+                         wx.BITMAP_TYPE_ICO, 16, 16)
+        wx.Frame.SetIcon(self, winIco)
+        
         
         #Create Menu bar and menus
         self.topMenu = wx.MenuBar()
